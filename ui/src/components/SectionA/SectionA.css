@@ -1,0 +1,21 @@
+/* SectionA.css */
+.section-a {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
+  }
+  
+  .section-a1, .section-a2 {
+    margin: 5px; /* Thêm margin cho các phần nhỏ */
+  }
+  
+  .section-a1 {
+    height: calc(50% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
+    background-color: #f0f0f0; /* Màu nền cho logo */
+  }
+  
+  .section-a2 {
+    height: calc(50% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
+    background-color: #e0e0e0; /* Màu nền cho intro */
+  }

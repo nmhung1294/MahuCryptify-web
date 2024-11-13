@@ -1,0 +1,11 @@
+/* SectionB.css */
+.section-b {
+  width: 475px;
+  background-color: rgb(176, 181, 182); /* Màu xanh cho trang trống */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
+  margin: 10px; /* Thêm margin cho phần B */
+  height: calc(100% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
+  overflow-y: auto; /* Thêm scroll nếu nội dung quá dài */
+  padding: 10px; /* Thêm padding cho nội dung */
+  color: white; /* Màu chữ */
+}
