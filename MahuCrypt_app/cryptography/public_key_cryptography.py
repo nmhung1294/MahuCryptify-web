@@ -69,3 +69,5 @@ def EN_EC(string, p, s, k, P):
     B = double_and_add(P, s, p)
     
     return encrypted
+
+#add more functions here
