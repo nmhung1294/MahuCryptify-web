@@ -23,7 +23,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           }}>Encrypt</li>
           <li onClick={() => {
             setPreviousSubItem(selectedSubItem);
-            setSelectedSubItem('Decode');
+            setSelectedSubItem('Decrypt');
           }}>Decode</li>
         </ul>
       </div>
@@ -120,12 +120,13 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         switch (selectedSubItem) {
           case 'Create Key':
           case 'Encrypt':
-          case 'Decode':
+          case 'Decrypt':
+            //alert(`http://127.0.0.1:8000/myapp/cryptosystem/${cryptosystemType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`)
             return (
               <FormComponent
                 formType={selectedSubItem}
                 cryptosystemType={cryptosystemType}
-                apiUrl={`http://127.0.0.1:8000/api/${cryptosystemType?.toLowerCase()}/${selectedSubItem.toLowerCase()}/`}
+                apiUrl={`http://127.0.0.1:8000/myapp/cryptosystem/${cryptosystemType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
                 onBack={() => setSelectedSubItem(previousSubItem)}
               />
             );

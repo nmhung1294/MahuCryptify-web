@@ -1,5 +1,5 @@
 from MahuCrypt_app.cryptography.algos import *
-from pre_process import *
+from MahuCrypt_app.cryptography.pre_process import *
 from numpy import *
 import secrets
 
@@ -24,13 +24,10 @@ def create_RSA_keys(bits):
 
 def create_ELGAMAL_keys(bits):
     p = get_prime_number(bits)
-    alpha = int(input("Enter alpha: "))
-    while (is_primitive_root(p, alpha) == False):
-        print("Alpha is a primitive root!")
-        alpha = int(input("Enter alpha: "))
+    alpha = 2
     a = secrets.randbelow(p - 1) + 1
     beta = modular_exponentiation(alpha, a, p)
-    return {"public_key": {"p": p, "alpha" : alpha, "beta": beta}, "private_key": a}
+    return {"public_key": {"p": p, "alpha" : alpha, "beta": beta}, "private_key - a": a}
 
 #Create ECC keys
 def create_ECC_keys(bits):
@@ -95,9 +92,10 @@ def DE_RSA(encrypted, private_key):
     n = p * q
     d = private_key["d"]
     decrypted = []
-    for sub_str in encrypted:
+    encrypted = encrypted.strip("[]")
+    encrypted_message = [int(sub_str) for sub_str in encrypted.split(",")]
+    for sub_str in encrypted_message:
         decrypted.append(modular_exponentiation(sub_str, d, n))
-    print(decrypted)
     decrypted_str = "".join([convert_int_to_str(sub_str) for sub_str in decrypted])
     return decrypted_str
 
@@ -108,7 +106,7 @@ def EN_ELGAMAL(string, public_key):
     Encrypts the string using the El Gamal algorithm
     """
     p, alpha, beta = public_key["p"], public_key["alpha"], public_key["beta"]
-    k = int(input("Enter k: "))
+    k = secrets.randbelow(p//10 - 1) + 1
     sub_strings = sub_string(pre_solve(string), 4)
     sub_str_base10 = [convert_str_to_int(sub_string) for sub_string in sub_strings]
     encrypted = []
@@ -120,16 +118,24 @@ def EN_ELGAMAL(string, public_key):
 
 #Decrypt message using El Gamal system
 
-def DE_ELGAMAL(encrypted, p , private_key):
+def DE_ELGAMAL(encrypted_message_str, p , private_key):
     """
     Decrypts the string using the El Gamal algorithm
     """
     a = private_key
     decrypted = []
+    encrypted_message_str = encrypted_message_str.strip("[]")
+    if "(" in encrypted_message_str and ")" in encrypted_message_str:
+        encrypted_message_str_list = encrypted_message_str.replace("(", "").replace(")", "").split("),(")
+    else:
+        encrypted_message_str_list = encrypted_message_str.split("],[")
+    encrypted_message_tmp = [int(num) for sub_str in encrypted_message_str_list for num in sub_str.split(",")]
+    encrypted = []
+    for i in range(0, len(encrypted_message_tmp) - 1, 2):
+        encrypted.append((encrypted_message_tmp[i], encrypted_message_tmp[i + 1]))
     for y1, y2 in encrypted:
         sub_str = (y2 * modular_exponentiation(y1, p - 1 - a, p)) % p
         decrypted.append(sub_str)
-    print(decrypted)
     decrypted_str = "".join([convert_int_to_str(sub_str) for sub_str in decrypted])
     return decrypted_str
 

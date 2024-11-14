@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-
+import Cookies from 'js-cookie';
 function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
   const [formData, setFormData] = useState({});
   const [apiResult, setApiResult] = useState(null);
 
   useEffect(() => {
-    // Reset formData whenever formType or cryptosystemType changes
     setFormData({});
     setApiResult(null);
   }, [formType, cryptosystemType]);
@@ -23,7 +22,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+      // Lấy kết quả từ API Django
       const data = await response.json();
       setApiResult(data);
     } catch (error) {
@@ -52,38 +51,59 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
           return (
             <>
               <input
-                type="text"
-                name="data"
-                value={formData.data || ''}
+                type="number"
+                name="n"
+                value={formData.n || ''}
                 onChange={handleInputChange}
-                placeholder="Data to Encrypt for Crypto1"
-              />
+                placeholder="Enter n for RSA"
+              /> <br/>
+              <input
+                type="number"
+                name="e"
+                value={formData.e || ''}
+                onChange={handleInputChange}
+                placeholder="Enter e for RSA"
+              /> <br/>
               <input
                 type="text"
-                name="encryptionKey"
-                value={formData.encryptionKey || ''}
+                name="message"
+                value={formData.message || ''}
                 onChange={handleInputChange}
-                placeholder="Encryption Key for Crypto1"
+                placeholder="Message to Encrypt using RSA"
               />
             </>
           );
-        } else if (formType === 'Decode') {
+        } else if (formType === 'Decrypt') {
           return (
             <>
               <input
                 type="text"
-                name="encodedData"
-                value={formData.encodedData || ''}
+                name="encrypted_message"
+                value={formData.encrypted_message || ''}
                 onChange={handleInputChange}
                 placeholder="Encoded Data for Crypto1"
               />
               <input
                 type="text"
-                name="decryptionKey"
-                value={formData.decryptionKey || ''}
+                name="p"
+                value={formData.p || ''}
                 onChange={handleInputChange}
-                placeholder="Decryption Key for Crypto1"
-              />
+                placeholder="Enter p for RSA"
+              /> <br/>
+              <input
+                type="text"
+                name="q"
+                value={formData.q || ''}
+                onChange={handleInputChange}
+                placeholder="Enter q for RSA"
+              /> <br/>
+              <input
+                type="text"
+                name="d"
+                value={formData.d || ''}
+                onChange={handleInputChange}
+                placeholder="Enter d for RSA"
+              /> <br/>
             </>
           );
         }
@@ -93,18 +113,11 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
           return (
             <>
               <input
-                type="text"
-                name="keyName"
-                value={formData.keyName || ''}
+                type="number"
+                name="bits"
+                value={formData.bits || ''}
                 onChange={handleInputChange}
-                placeholder="Key Name for Crypto2"
-              />
-              <input
-                type="text"
-                name="keyType"
-                value={formData.keyType || ''}
-                onChange={handleInputChange}
-                placeholder="Key Type for Crypto2"
+                placeholder="Enter Number of bits of prime number"
               />
             </>
           );
@@ -113,37 +126,58 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
             <>
               <input
                 type="text"
-                name="data"
-                value={formData.data || ''}
+                name="message"
+                value={formData.message || ''}
                 onChange={handleInputChange}
-                placeholder="Data to Encrypt for Crypto2"
-              />
+                placeholder="Data to Encrypt for Elgamal"
+              /> <br/>
               <input
-                type="text"
-                name="encryptionKey"
-                value={formData.encryptionKey || ''}
+                type="number"
+                name="p"
+                value={formData.p|| ''}
                 onChange={handleInputChange}
-                placeholder="Encryption Key for Crypto2"
-              />
+                placeholder="Encryption Key p"
+              /> <br/>
+              <input
+                type="number"
+                name="alpha"
+                value={formData.alpha|| ''}
+                onChange={handleInputChange}
+                placeholder="Encryption Key alpha"
+              /> <br/>
+              <input
+                type="number"
+                name="beta"
+                value={formData.beta|| ''}
+                onChange={handleInputChange}
+                placeholder="Encryption Key beta"
+              /> <br/>
             </>
           );
-        } else if (formType === 'Decode') {
+        } else if (formType === 'Decrypt') {
           return (
             <>
               <input
                 type="text"
-                name="encodedData"
-                value={formData.encodedData || ''}
+                name="encrypted_message"
+                value={formData.encrypted_message || ''}
                 onChange={handleInputChange}
-                placeholder="Encoded Data for Crypto2"
-              />
+                placeholder="Data to Encrypt for Elgamal"
+              /> <br/>
               <input
-                type="text"
-                name="decryptionKey"
-                value={formData.decryptionKey || ''}
+                type="number"
+                name="p"
+                value={formData.p|| ''}
                 onChange={handleInputChange}
-                placeholder="Decryption Key for Crypto2"
-              />
+                placeholder="Decryption Key p"
+              /> <br/>
+              <input
+                type="number"
+                name="a"
+                value={formData.a|| ''}
+                onChange={handleInputChange}
+                placeholder="Decryption Key a"
+              /> <br/>
             </>
           );
         }
