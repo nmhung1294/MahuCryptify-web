@@ -11,9 +11,9 @@ urlpatterns = [
     path('cryptosystem/elgamal/decrypt/', HandleSubmitCryptoSystem.decrypt_ElGamal, name='decrypt_ElGamal'),
     # path('cryptosystem/elgamal/sign/', HandleSubmitCryptoSystem.sign_ElGamal, name='sign_ElGamal'),
     # path('cryptosystem/elgamal/verify/', HandleSubmitCryptoSystem.verify_ElGamal, name='verify_ElGamal'),
-    # path('cryptosystem/elliptic_curve/create_key/', HandleSubmitCryptoSystem.gen_Elliptic_curve_key, name='gen_Elliptic_curve_key'),
-    # path('cryptosystem/elliptic_curve/encrypt/', HandleSubmitCryptoSystem.encrypt_Elliptic_curve, name='encrypt_Elliptic_curve'),
-    # path('cryptosystem/elliptic_curve/decrypt/', HandleSubmitCryptoSystem.decrypt_Elliptic_curve, name='decrypt_Elliptic_curve'),
+    path('cryptosystem/elliptic_curve/create_key/', HandleSubmitCryptoSystem.gen_ECC_key, name='gen_ECC_key'),
+    path('cryptosystem/elliptic_curve/encrypt/', HandleSubmitCryptoSystem.encrypt_Elliptic_curve, name='encrypt_Elliptic_curve'),
+    path('cryptosystem/elliptic_curve/decrypt/', HandleSubmitCryptoSystem.decrypt_Elliptic_curve, name='decrypt_Elliptic_curve'),
     # path('cryptosystem/elliptic_curve/sign/', HandleSubmitCryptoSystem.sign_Elliptic_curve, name='sign_Elliptic_curve'),
     # path('cryptosystem/elliptic_curve/verify/', HandleSubmitCryptoSystem.verify_Elliptic_curve, name='verify_Elliptic_curve'),
 ]

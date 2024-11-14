@@ -62,3 +62,31 @@ class HandleSubmitCryptoSystem(APIView):
             return Response("Enter Again")
         decrypted_message = DE_ELGAMAL(encrypted_message, p, a)
         return Response(decrypted_message)
+    
+    @api_view(['POST'])
+    def gen_ECC_key(request):
+        data = request.data
+        bits = int(data['bits'])
+        key_ECC = create_ECC_keys(bits)
+        return Response(key_ECC)
+    
+    @api_view(['POST'])
+    def encrypt_Elliptic_curve(request):
+        data = request.data
+        message = data['message']
+        a = int(data['a'])
+        p = int(data['p'])
+        P = (int(data['Px']), int(data['Py']))
+        B = (int(data['Bx']), int(data['By']))
+        result = EN_ECC(message, {"a": a, "p" : p, "P" : P, "B": B})
+        return Response({"Message points: ": result[0], "Encrypted message: ": result[1]})
+        
+    @api_view(['POST'])
+    def decrypt_Elliptic_curve(request):
+        data = request.data
+        encrypted_message = data['encrypted_message']
+        s = int(data['decryptionKey'])
+        a = int(data['a'])
+        p = int(data['p'])
+        result = DE_ECC(encrypted_message, {"a": a, "p" : p}, s)
+        return Response(result)

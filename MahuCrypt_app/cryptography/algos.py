@@ -55,7 +55,7 @@ def double(point, a, p):
     y_r = (_lambda*(x - x_r) - y) % p
     return (x_r, y_r)
 
-def add(point1, point2, a, p):
+def add_points(point1, point2, a, p):
     x1, y1 = point1
     x2, y2 = point2
     if (point1 == (0,0)):
@@ -82,7 +82,7 @@ def double_and_add(point, n, a, p):
     for i in range(1, l):
         T = double(T, a, p)
         if (d[i] == '1'):
-            T = add(T, point, a, p)
+            T = add_points(T, point, a, p)
     return T
 
 def miller_rabin_test(n, k):

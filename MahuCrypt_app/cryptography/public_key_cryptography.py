@@ -2,6 +2,7 @@ from MahuCrypt_app.cryptography.algos import *
 from MahuCrypt_app.cryptography.pre_process import *
 from numpy import *
 import secrets
+import re
 
 def get_prime_number(bits):
     while True:
@@ -33,12 +34,10 @@ def create_ELGAMAL_keys(bits):
 def create_ECC_keys(bits):
     p = get_prime_number(bits)
     while True:
-        a = int(input("Enter a: "))
-        b = int(input("Enter b: "))
+        a = secrets.randbelow(20 - 1) + 1
+        b = secrets.randbelow(20 - 1) + 1
         if 4*a**3 + 27*b**2 != 0:
             break
-        else:
-            print("Invalid a, b! Choose again!")
     l = 0
     #points_on_curve=[]
     quadratic_residue = find_quadratic_residue(p)
@@ -106,7 +105,7 @@ def EN_ELGAMAL(string, public_key):
     Encrypts the string using the El Gamal algorithm
     """
     p, alpha, beta = public_key["p"], public_key["alpha"], public_key["beta"]
-    k = secrets.randbelow(p//10 - 1) + 1
+    k = secrets.randbelow(p // 10 - 1) + 1
     sub_strings = sub_string(pre_solve(string), 4)
     sub_str_base10 = [convert_str_to_int(sub_string) for sub_string in sub_strings]
     encrypted = []
@@ -145,28 +144,34 @@ def EN_ECC(string, public_key):
     """
     Encrypts the string using the Elliptic Curve algorithm
     """
-    k = int(input("Enter k: "))
     a, p, P, B = public_key["a"], public_key["p"], public_key["P"], public_key["B"]
+    k = secrets.randbelow(p//10 - 1) + 1
     encrypted = []
     sub_strings = sub_string(pre_solve(string), 3)
     sub_string_int = [convert_str_to_int(sub_string) for sub_string in sub_strings]
     message_points = [double_and_add(P, sub_str_int, a, p ) for sub_str_int in sub_string_int]
     for point in message_points:
         C1 = double_and_add(P, k, a, p)
-        C2 = add(point, double_and_add(B, k, a, p), a, p)
+        M = double_and_add(B, k, a, p)
+        C2 = add_points(point, M, a, p)
         encrypted.append((C1, C2))
     return message_points, encrypted
 
 #Decrypt message using Elliptic Curve system
-def DE_ECC(encrypted, public_key, private_key):
+def DE_ECC(encrypted_message_str, public_key, private_key):
     a, p = public_key["a"], public_key["p"]
     s = private_key
+    str_list = re.findall(r'\d+', encrypted_message_str)
+    int_list = [int(num) for num in str_list]
+    encrypted_message = []
+    for i in range(0, len(int_list) - 1, 4):
+        encrypted_message.append(((int_list[i], int_list[i + 1]), (int_list[i + 2], int_list[i + 3])))
     decrypted_points = []
-    for en in encrypted:
+    for en in encrypted_message:
         C1, C2 = en
         sC1 = double_and_add(C1, s, a, p)
         tmp = (sC1[0], -sC1[1])
-        decrypted_point = add(C2, tmp, a, p)
+        decrypted_point = add_points(C2, tmp, a, p)
         decrypted_points.append(decrypted_point)
     return decrypted_points
 

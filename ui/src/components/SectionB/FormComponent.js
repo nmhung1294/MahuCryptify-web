@@ -187,18 +187,11 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
           return (
             <>
               <input
-                type="text"
-                name="keyName"
-                value={formData.keyName || ''}
+                type="number"
+                name="bits"
+                value={formData.bits || ''}
                 onChange={handleInputChange}
-                placeholder="Key Name for Crypto3"
-              />
-              <input
-                type="text"
-                name="keyType"
-                value={formData.keyType || ''}
-                onChange={handleInputChange}
-                placeholder="Key Type for Crypto3"
+                placeholder="Enter size of prime number"
               />
             </>
           );
@@ -207,37 +200,86 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
             <>
               <input
                 type="text"
-                name="data"
-                value={formData.data || ''}
+                name="message"
+                value={formData.message || ''}
                 onChange={handleInputChange}
-                placeholder="Data to Encrypt for Crypto3"
+                placeholder="Enter message"
+              /> <br/>
+              <input
+                type="number"
+                name="a"
+                value={formData.a || ''}
+                onChange={handleInputChange}
+                placeholder="Enter a"
+              /> <br/>
+              <input
+                type="number"
+                name="p"
+                value={formData.p || ''}
+                onChange={handleInputChange}
+                placeholder="Enter p"
+              /> <br/>
+              <input
+                type="number"
+                name="Px"
+                value={formData.Px || ''}
+                onChange={handleInputChange}
+                placeholder="Enter Px"
               />
               <input
-                type="text"
-                name="encryptionKey"
-                value={formData.encryptionKey || ''}
+                type="number"
+                name="Py"
+                value={formData.Py || ''}
                 onChange={handleInputChange}
-                placeholder="Encryption Key for Crypto3"
-              />
+                placeholder="Enter Py"
+              /> <br/>
+              <input
+                type="number"
+                name="Bx"
+                value={formData.Bx || ''}
+                onChange={handleInputChange}
+                placeholder="Data to Encrypt for Crypto3"
+              /> 
+              <input
+                type="number"
+                name="By"
+                value={formData.By || ''}
+                onChange={handleInputChange}
+                placeholder="Enter By"
+              /> <br/>
             </>
           );
-        } else if (formType === 'Decode') {
+        } else if (formType === 'Decrypt') {
           return (
             <>
               <input
                 type="text"
-                name="encodedData"
-                value={formData.encodedData || ''}
+                name="encrypted_message"
+                value={formData.encrypted_message || ''}
                 onChange={handleInputChange}
-                placeholder="Encoded Data for Crypto3"
+                placeholder="Encoded Message"
               />
+              <input
+                type="number"
+                name="a"
+                value={formData.a || ''}
+                onChange={handleInputChange}
+                placeholder="Enter a"
+              /> <br/>
+              <input
+                type="number"
+                name="p"
+                value={formData.p || ''}
+                onChange={handleInputChange}
+                placeholder="Enter p"
+              /> <br/>
               <input
                 type="text"
                 name="decryptionKey"
                 value={formData.decryptionKey || ''}
                 onChange={handleInputChange}
-                placeholder="Decryption Key for Crypto3"
-              />
+                placeholder="Enter s - private key"
+              /> <br/>
             </>
           );
         }
