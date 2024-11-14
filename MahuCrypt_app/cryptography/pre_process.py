@@ -15,7 +15,7 @@ def sub_string(string, len_each):
 
 def convert_str_to_int(string):
     """
-    Converts a string to integer in base 26
+    Converts a string to integer in base 10
     """
     res = 0
     i = len(string) - 1

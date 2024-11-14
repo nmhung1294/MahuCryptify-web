@@ -10,6 +10,6 @@ body, html {
 
 .container {
   display: flex;
-  width: 1000px;
-  height: 945px;
+  width: 75rem;
+  height: 45rem;
 }

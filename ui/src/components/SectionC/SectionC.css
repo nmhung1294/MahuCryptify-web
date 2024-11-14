@@ -1,6 +1,6 @@
 /* SectionC.css */
 .section-c {
-  width: 345px;
+  width: 30%;
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */

@@ -1,4 +1,4 @@
-from MahuCrypt.cryptography.algos import *
+from MahuCrypt_app.cryptography.algos import *
 import numpy as np
 
 

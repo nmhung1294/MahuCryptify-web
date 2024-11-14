@@ -35,23 +35,16 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
     if (!cryptosystemType) return null;
 
     switch (cryptosystemType) {
-      case 'Crypto1':
+      case 'RSA':
         if (formType === 'Create Key') {
           return (
             <>
               <input
-                type="text"
-                name="keyName"
-                value={formData.keyName || ''}
+                type="number"
+                name="bits"
+                value={formData.bits || ''}
                 onChange={handleInputChange}
-                placeholder="Key Name for Crypto1"
-              />
-              <input
-                type="text"
-                name="keyLength"
-                value={formData.keyLength || ''}
-                onChange={handleInputChange}
-                placeholder="Key Length for Crypto1"
+                placeholder="Enter Number of bits of prime number"
               />
             </>
           );
@@ -95,7 +88,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
           );
         }
         break;
-      case 'Crypto2':
+      case 'ElGamal':
         if (formType === 'Create Key') {
           return (
             <>
@@ -150,6 +143,66 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
                 value={formData.decryptionKey || ''}
                 onChange={handleInputChange}
                 placeholder="Decryption Key for Crypto2"
+              />
+            </>
+          );
+        }
+        break;
+      case 'Elliptic Curve':
+        if (formType === 'Create Key') {
+          return (
+            <>
+              <input
+                type="text"
+                name="keyName"
+                value={formData.keyName || ''}
+                onChange={handleInputChange}
+                placeholder="Key Name for Crypto3"
+              />
+              <input
+                type="text"
+                name="keyType"
+                value={formData.keyType || ''}
+                onChange={handleInputChange}
+                placeholder="Key Type for Crypto3"
+              />
+            </>
+          );
+        } else if (formType === 'Encrypt') {
+          return (
+            <>
+              <input
+                type="text"
+                name="data"
+                value={formData.data || ''}
+                onChange={handleInputChange}
+                placeholder="Data to Encrypt for Crypto3"
+              />
+              <input
+                type="text"
+                name="encryptionKey"
+                value={formData.encryptionKey || ''}
+                onChange={handleInputChange}
+                placeholder="Encryption Key for Crypto3"
+              />
+            </>
+          );
+        } else if (formType === 'Decode') {
+          return (
+            <>
+              <input
+                type="text"
+                name="encodedData"
+                value={formData.encodedData || ''}
+                onChange={handleInputChange}
+                placeholder="Encoded Data for Crypto3"
+              />
+              <input
+                type="text"
+                name="decryptionKey"
+                value={formData.decryptionKey || ''}
+                onChange={handleInputChange}
+                placeholder="Decryption Key for Crypto3"
               />
             </>
           );
