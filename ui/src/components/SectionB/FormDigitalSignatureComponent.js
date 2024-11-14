@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
-function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
+
+function FormComponentDS({ formType, DSType, apiUrl, onBack }) {
   const [formData, setFormData] = useState({});
   const [apiResult, setApiResult] = useState(null);
 
   useEffect(() => {
     setFormData({});
     setApiResult(null);
-  }, [formType, cryptosystemType]);
+  }, [formType, DSType]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +22,6 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      // Lấy kết quả từ API Django
       const data = await response.json();
       setApiResult(data);
     } catch (error) {
@@ -30,11 +29,11 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
     }
   };
 
-  const renderFormFields = () => {
-    if (!cryptosystemType) return null;
+  const renderFormFieldsDS = () => {
+    if (!DSType) return null;
 
-    switch (cryptosystemType) {
-      case 'RSA':
+    switch (DSType) {
+      case 'DSA':
         if (formType === 'Create Key') {
           return (
             <>
@@ -47,7 +46,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               />
             </>
           );
-        } else if (formType === 'Encrypt') {
+        } else if (formType === 'Sign') {
           return (
             <>
               <input
@@ -73,7 +72,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               />
             </>
           );
-        } else if (formType === 'Decrypt') {
+        } else if (formType === 'Verify') {
           return (
             <>
               <input
@@ -108,7 +107,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
           );
         }
         break;
-      case 'ElGamal':
+      case 'Signature on RSA':
         if (formType === 'Create Key') {
           return (
             <>
@@ -121,7 +120,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               />
             </>
           );
-        } else if (formType === 'Encrypt') {
+        } else if (formType === 'Sign') {
           return (
             <>
               <input
@@ -154,7 +153,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               /> <br/>
             </>
           );
-        } else if (formType === 'Decrypt') {
+        } else if (formType === 'Verify') {
           return (
             <>
               <input
@@ -182,7 +181,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
           );
         }
         break;
-      case 'Elliptic Curve':
+      case 'ECDSA':
         if (formType === 'Create Key') {
           return (
             <>
@@ -195,7 +194,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               />
             </>
           );
-        } else if (formType === 'Encrypt') {
+        } else if (formType === 'Sign') {
           return (
             <>
               <input
@@ -249,7 +248,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               /> <br/>
             </>
           );
-        } else if (formType === 'Decrypt') {
+        } else if (formType === 'Verify') {
           return (
             <>
               <input
@@ -291,9 +290,9 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
 
   return (
     <div>
-      <h3>{formType} - {cryptosystemType}</h3>
+      <h3>{formType} - {DSType}</h3>
       <form onSubmit={handleSubmit}>
-        {renderFormFields()}
+        {renderFormFieldsDS()}
         <button type="submit">Submit</button>
       </form>
       <button onClick={onBack}>Back</button>
@@ -307,4 +306,4 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
   );
 }
 
-export default FormComponent;
+export default FormComponentDS;

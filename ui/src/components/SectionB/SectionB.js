@@ -1,11 +1,16 @@
 // SectionB.js
 import React, { useState, useEffect } from 'react';
 import './SectionB.css';
-import FormComponent from './FormComponent';
+import FormComponent from './FormCryptosystemComponent';
+import FormComponentDS from './FormDigitalSignatureComponent';
+import FormComponentAlgo from './FormAlgoComponent';
 
 function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSelection }) {
-  const [cryptosystemType, setCryptosystemType] = useState(null);
   const [previousSubItem, setPreviousSubItem] = useState(null);
+  const [cryptosystemType, setCryptosystemType] = useState(null);
+  const [DSType, setDSType] = useState(null);
+  const [algo, setAlgo] = useState(null);
+
   const renderSubItemContent = () => {
     if (!selectedSubItem) return null;
 
@@ -24,12 +29,34 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           <li onClick={() => {
             setPreviousSubItem(selectedSubItem);
             setSelectedSubItem('Decrypt');
-          }}>Decode</li>
+          }}>Decrypt</li>
         </ul>
       </div>
     );
   };
 
+  const renderSubcontentDS= () => {
+    if (!selectedSubItem) return null;
+    return (
+      <div>
+        <h3>{selectedSubItem}</h3>
+        <ul>
+          <li onClick={() => {
+            setPreviousSubItem(selectedSubItem);
+            setSelectedSubItem('Create Key');
+          }}>Create Key</li>
+          <li onClick={() => {
+            setPreviousSubItem(selectedSubItem);
+            setSelectedSubItem('Sign');
+          }}>Sign</li>
+          <li onClick={() => {
+            setPreviousSubItem(selectedSubItem);
+            setSelectedSubItem('Verify');
+          }}>Verify Signature</li>
+        </ul>
+      </div>
+    );
+  }
   const renderSelectedContent = () => {
     var list_of_algorithms = ['AKS', 'Extend EuClide', 'Modular Exponentiation']
     const list_of_cryptosystems = ['RSA', 'ElGamal', 'Elliptic Curve']
@@ -44,12 +71,14 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           <h2>Algorithms</h2>
           <ul>
             {list_of_algorithms.map((algorithm, i) => (
-              <li key={i} onClick={() => setSelectedSubItem(algorithm)}>
+              <li key={i} onClick={() => {
+                setSelectedSubItem(algorithm)
+                setAlgo(algorithm);
+              }}>
                 {algorithm}
               </li>
             ))}
           </ul>
-          {/* {renderSubItemContent()} */}
           <button onClick={resetSelection}>Back to Main</button>
         </div>
       );
@@ -79,12 +108,15 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           <h2>Digital Signature</h2>
           <ul>
             {list_of_digitalsignatures.map((dsscheme, i) => (
-              <li key={i} onClick={() => setSelectedSubItem(dsscheme)}>
+              <li key={i} onClick={() => {
+              setSelectedSubItem(dsscheme);
+              setDSType(dsscheme);
+              }}>
                 {dsscheme}
               </li>
             ))}
           </ul>
-          {renderSubItemContent()}
+          {renderSubcontentDS()}
         </div>
       );
     }
@@ -112,7 +144,13 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           case 'AKS':
           case 'Extend EuClide':
           case 'Modular Exponentiation':
-            return (<div>Hello Algorithm</div>)
+            return (
+              <FormComponentAlgo
+                algo = {selectedSubItem}
+                apiUrl={`http://127.0.0.1:8000/myapp/algo/${algo?.toLowerCase().replace(' ', '_')}/`}
+                onBack={() => setSelectedSubItem(previousSubItem)}
+              />
+            )
         default:
           return renderSelectedContent();
         };
@@ -121,7 +159,6 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           case 'Create Key':
           case 'Encrypt':
           case 'Decrypt':
-            //alert(`http://127.0.0.1:8000/myapp/cryptosystem/${cryptosystemType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`)
             return (
               <FormComponent
                 formType={selectedSubItem}
@@ -133,22 +170,26 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           default:
             return renderSelectedContent();
         };
-      case 'DigitalSignature':
-        switch (selectedSubItem) {
-          case 'DSA':
-          case 'Signature on RSA':
-          case 'Signature on ElGammal':
-          case 'ECDSA':
-          case 'Schnorr':
-            return (<div>Hello DSA</div>)
-          default:
-            return renderSelectedContent();
-        };
+        case 'DigitalSignature':
+          switch (selectedSubItem) {
+            case 'Create Key':
+            case 'Sign':
+            case 'Verify':
+              return (
+                <FormComponentDS
+                  formType={selectedSubItem}
+                  DSType={DSType}
+                  apiUrl={`http://127.0.0.1:8000/myapp/digitalsignature/${DSType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
+                  onBack={() => setSelectedSubItem(previousSubItem)}
+                />
+              );
+            default:
+              return renderSelectedContent();
+          };
       default:
         return null;
-  };
-  }
-
+      };
+};
   return (
     <div className="section-b">
       {renderContent()}
@@ -157,3 +198,38 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
 }
 
 export default SectionB;
+
+/*
+case 'DigitalSignature':
+        switch (selectedSubItem) {
+          case 'Create Key':
+          case 'Sign':
+          case 'Verify':
+            return (
+              <FormComponentDS
+                formType={selectedSubItem}
+                DSType={DSType}
+                apiUrl={`http://127.0.0.1:8000/myapp/digitalsignature/${DSType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
+                onBack={() => setSelectedSubItem(previousSubItem)}
+              />
+            );
+          default:
+            return renderSelectedContent();
+        }
+case 'DigitalSignature':
+        switch (selectedSubItem) {
+          case 'Create Key':
+          case 'Sign':
+          case 'Verify':
+            return (
+              <FormComponentDS
+                formType={selectedSubItem}
+                DSType={DSType}
+                apiUrl={`http://127.0.0.1:8000/myapp/digitalsignature/${DSType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
+                onBack={() => setSelectedSubItem(previousSubItem)}
+              />
+            );
+          default:
+            return renderSelectedContent();
+        }
+*/
