@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from MahuCrypt_app.cryptography.public_key_cryptography import *
+from MahuCrypt_app.model_mongo import UserModel
 
 class HandleSubmitCryptoSystem(APIView):
     @api_view(['POST'])
@@ -90,3 +91,14 @@ class HandleSubmitCryptoSystem(APIView):
         p = int(data['p'])
         result = DE_ECC(encrypted_message, {"a": a, "p" : p}, s)
         return Response(result)
+    
+    @api_view(['GET'])
+    def test(request):
+        user_data = UserModel.get_blog_by_id('67370eaab590cec3ccf1423d')
+        return Response(user_data)
+    @api_view(['GET'])
+    def get_all_blog(request):
+        blogs = UserModel.get_all_blogs()
+        # Convert ObjectId to string for JSON serialization
+        blogs_list = [{"_id": str(blog["_id"]), "title": blog["title"], "content": blog["content"]} for blog in blogs]
+        return Response(blogs_list)

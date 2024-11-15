@@ -16,10 +16,7 @@ function SectionC({ onSelectItem }) {
         <div onClick={() => handleSelectItem('DigitalSignature')}>Digital Signature</div>
       </div>
       <div className="section-c3">
-        <h3>Blog</h3>
-        <div>Hung</div>
-        <div>Nguyen</div>
-        <div>Manh</div>
+        <div onClick = {() => handleSelectItem('Blog')}>Blog</div>
       </div>
       <div className="section-c4">
         <h3>Social Media</h3>

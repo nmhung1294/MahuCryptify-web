@@ -4,13 +4,33 @@ import './SectionB.css';
 import FormComponent from './FormCryptosystemComponent';
 import FormComponentDS from './FormDigitalSignatureComponent';
 import FormComponentAlgo from './FormAlgoComponent';
-
+import axios from 'axios';
 function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSelection }) {
   const [previousSubItem, setPreviousSubItem] = useState(null);
   const [cryptosystemType, setCryptosystemType] = useState(null);
   const [DSType, setDSType] = useState(null);
   const [algo, setAlgo] = useState(null);
-
+  const [blogTitles, setBlogTitles] = useState([]);
+  const [blogContent, setBlogContent] = useState(null);
+  useEffect(() => {
+    if (selectedItem && selectedItem === 'Blog') {
+      // Fetch blog titles from the API
+      axios.get('http://127.0.0.1:8000/myapp/blog/')
+        .then(response => {
+          const data = response.data;
+          console.log(response);
+          console.log(data);
+          var list_of_blog = []
+          for (var i = 0; i < data.length; i++) {
+            list_of_blog.push({"id" : data[i]._id, "title" : data[i].title, "content" : data[i].content})
+          }
+          setBlogTitles(list_of_blog);
+        })
+        .catch(error => {
+          console.error('There was an error fetching the blog titles!', error);
+        });
+    }
+  }, [selectedItem]);
   const renderSubItemContent = () => {
     if (!selectedSubItem) return null;
 
@@ -121,16 +141,18 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
       );
     }
 
-    if (selectedItem.startsWith('Blog')) {
+    if (selectedItem ==='Blog') {
       return (
         <div>
           <h2>{selectedItem}</h2>
-          <p>Chi tiết cho {selectedItem}</p>
+          <ul>
+            {blogTitles.map((blog, index) => (
+              <li key={index} onClick = {() => {setSelectedSubItem(blog.title); setBlogContent(blog.content)}}>{blog.title}</li>
+            ))}
+          </ul>
         </div>
       );
     }
-
-    return <div>Chi tiết cho {selectedItem}</div>;
   };
 
   const renderContent = () => {
@@ -140,20 +162,16 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
 
     switch (selectedItem) {
       case 'Algorithm':
-        switch (selectedSubItem) {
-          case 'AKS':
-          case 'Extend EuClide':
-          case 'Modular Exponentiation':
-            return (
-              <FormComponentAlgo
-                algo = {selectedSubItem}
-                apiUrl={`http://127.0.0.1:8000/myapp/algo/${algo?.toLowerCase().replace(' ', '_')}/`}
-                onBack={() => setSelectedSubItem(previousSubItem)}
-              />
-            )
-        default:
-          return renderSelectedContent();
-        };
+        if (selectedSubItem) {
+          return (
+            <FormComponentAlgo
+              algo = {selectedSubItem}
+              apiUrl={`http://127.0.0.1:8000/myapp/algo/${algo?.toLowerCase().replace(' ', '_')}/`}
+              onBack={() => setSelectedSubItem(previousSubItem)}
+            />
+          )
+        }
+        else {return renderSelectedContent();}
       case 'Cryptosystem':
         switch (selectedSubItem) {
           case 'Create Key':
@@ -186,6 +204,17 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
             default:
               return renderSelectedContent();
           };
+        case 'Blog':
+          if (selectedSubItem) {
+            return (
+              <div>
+                <h2>{selectedSubItem}</h2>
+                <p>{blogContent}</p>
+                <button onClick={resetSelection}>Back to Main</button>
+              </div>
+            )
+          }
+          else return renderSelectedContent();
       default:
         return null;
       };
@@ -200,36 +229,18 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
 export default SectionB;
 
 /*
-case 'DigitalSignature':
-        switch (selectedSubItem) {
-          case 'Create Key':
-          case 'Sign':
-          case 'Verify':
-            return (
-              <FormComponentDS
-                formType={selectedSubItem}
-                DSType={DSType}
-                apiUrl={`http://127.0.0.1:8000/myapp/digitalsignature/${DSType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
-                onBack={() => setSelectedSubItem(previousSubItem)}
-              />
-            );
-          default:
-            return renderSelectedContent();
+try {
+        const response = await fetch('http://127.0.0.1:8000/myapp/blog/', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const data = await response.json();
+        var list_of_digitalsignatures = []
+        for (var i = 0; i < data.length; i++) {
+          list_of_digitalsignatures.push(data[i].title)
         }
-case 'DigitalSignature':
-        switch (selectedSubItem) {
-          case 'Create Key':
-          case 'Sign':
-          case 'Verify':
-            return (
-              <FormComponentDS
-                formType={selectedSubItem}
-                DSType={DSType}
-                apiUrl={`http://127.0.0.1:8000/myapp/digitalsignature/${DSType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
-                onBack={() => setSelectedSubItem(previousSubItem)}
-              />
-            );
-          default:
-            return renderSelectedContent();
-        }
+        console.log(list_of_digitalsignatures)
+      } catch (error) {
+        console.error('Error:', error);
+      }
 */
