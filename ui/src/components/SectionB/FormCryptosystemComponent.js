@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import './cryptosystemcss.css'
 function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
   const [formData, setFormData] = useState({});
   const [apiResult, setApiResult] = useState(null);
@@ -67,6 +67,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               <input
                 type="text"
                 name="message"
+                className='inp_message'
                 value={formData.message || ''}
                 onChange={handleInputChange}
                 placeholder="Message to Encrypt using RSA"
@@ -127,6 +128,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               <input
                 type="text"
                 name="message"
+                className='inp_message'
                 value={formData.message || ''}
                 onChange={handleInputChange}
                 placeholder="Data to Encrypt for Elgamal"
@@ -201,6 +203,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
               <input
                 type="text"
                 name="message"
+                className='inp_message'
                 value={formData.message || ''}
                 onChange={handleInputChange}
                 placeholder="Enter message"
@@ -290,7 +293,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h3>{formType} - {cryptosystemType}</h3>
       <form onSubmit={handleSubmit}>
         {renderFormFields()}

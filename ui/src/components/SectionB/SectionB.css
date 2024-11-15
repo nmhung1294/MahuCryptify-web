@@ -9,3 +9,16 @@
   padding: 10px; /* Thêm padding cho nội dung */
   color: white; /* Màu chữ */
 }
+
+li {
+  list-style-type: none; /* Ẩn dấu chấm */
+  margin: 10px 0; /* Thêm margin giữa các item */
+  color: rgb(4, 90, 68);
+  font-weight: bold;
+}
+
+li:hover {
+  color: rgb(6, 47, 100);
+  font-weight: bold;
+  cursor: pointer;
+}
