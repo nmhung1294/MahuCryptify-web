@@ -3,7 +3,6 @@
   width: 50%;
   background-color: rgb(176, 181, 182); /* Màu xanh cho trang trống */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
-  margin: 10px; /* Thêm margin cho phần B */
   height: calc(100% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
   overflow-y: auto; /* Thêm scroll nếu nội dung quá dài */
   padding: 10px; /* Thêm padding cho nội dung */
@@ -21,4 +20,9 @@ li:hover {
   color: rgb(6, 47, 100);
   font-weight: bold;
   cursor: pointer;
+}
+
+.title {
+  text-align: center;
+  color: rgb(3, 52, 66);
 }

@@ -6,16 +6,33 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
   }
   
-  .section-a1, .section-a2 {
+  .section-a1, .section-a2, .section-a3 {
     margin: 5px; /* Thêm margin cho các phần nhỏ */
   }
   
   .section-a1 {
-    height: calc(50% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
+    height: calc(30% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
     background-color: #f0f0f0; /* Màu nền cho logo */
   }
   
   .section-a2 {
     height: calc(50% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
     background-color: #e0e0e0; /* Màu nền cho intro */
+  }
+  .section-a3 {
+    height: calc(20% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
+    background-color: #e0e0e0; /* Màu nền cho intro */
+  }
+  #intro {
+    margin: 10px;
+    font-size: 17px;
+
+  }
+  .smedia {
+    align-items: center;
+  }
+  #facebook {
+    text-decoration: none;
+    color: blue;
+    margin: 25%;
   }

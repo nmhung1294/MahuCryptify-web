@@ -294,19 +294,29 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
 
   return (
     <div className="form-container">
-      <h3>{formType} - {cryptosystemType}</h3>
-      <form onSubmit={handleSubmit}>
-        {renderFormFields()}
-        <button type="submit">Submit</button>
-      </form>
-      <button onClick={onBack}>Back</button>
-      {apiResult && (
-        <div>
-          <h4>API Result:</h4>
-          <pre>{JSON.stringify(apiResult, null, 2)}</pre>
-        </div>
-      )}
-    </div>
+    <h3>{formType} - {cryptosystemType}</h3>
+    <form onSubmit={handleSubmit}>
+      {renderFormFields()}
+      <button type="submit">Submit</button>
+    </form>
+    <button onClick={onBack}>Back</button>
+    {apiResult && (
+      <div className="api-result">
+        <h4>API Result:</h4>
+        <textarea
+           value={JSON.stringify(apiResult, (key, value) => {
+            if (typeof value === 'number') {
+              return value.toString();
+            }
+            return value;
+          }, 2)}
+          readOnly 
+          rows={10}
+          style={{ width: '90%', padding: '10px',margin: '20px', borderRadius: '4px', border: '1px solid #ccc' }} // Thêm kiểu
+        />
+      </div>
+    )}
+  </div>
   );
 }
 

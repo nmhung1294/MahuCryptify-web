@@ -6,42 +6,44 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
 }
 
-.section-c1, .section-c2, .section-c3, .section-c4, .section-c5 {
-  margin: 10px; /* Thêm margin cho các phần nhỏ */
+.section-c1, .section-c2, .section-c3, .section-c4 {
+  margin: 10px; 
 }
 
-.section-c1 {
-  height: calc(20% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
-  background-color: #d0d0d0; /* Màu nền cho ô tìm kiếm */
-}
+/* .section-c1 {
+  height: calc(20% - 20px);
+  background-color: #d0d0d0; 
+} */
 
 .section-c2 {
-  height: calc(20% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
+  height: calc(40% - 20px); 
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: #c0c0c0; /* Màu nền cho list */
-  cursor: pointer; /* Thêm con trỏ để chỉ ra rằng có thể click */
+  background-color: #c0c0c0; 
 }
 
 .section-c3 {
-  height: calc(20% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
-  background-color: #b0b0b0; /* Màu nền cho blog */
-  overflow-y: auto; /* Thêm scroll cho danh sách blog */
+  height: calc(40% - 20px);
+  background-color: #b0b0b0;
 }
 
 .blog-list {
-  max-height: 100%; /* Đảm bảo danh sách blog không vượt quá chiều cao */
-  overflow-y: auto; /* Thêm scroll cho danh sách blog */
-  cursor: pointer; /* Thêm con trỏ để chỉ ra rằng có thể click */
+  max-height: 100%; 
+  overflow-y: auto; 
+  cursor: pointer; 
 }
 
 .section-c4 {
-  height: calc(20% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
-  background-color: #a0a0a0; /* Màu nền cho social media */
+  height: calc(20% - 20px); 
+  background-color: #a0a0a0;
 }
 
-.section-c5 {
-  height: calc(20% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
-  background-color: #909090; /* Màu nền cho support */
+.introblog {
+  margin: 10px;
+  font-size: 17px;
+}
+
+.can_click{
+  cursor: pointer;
 }

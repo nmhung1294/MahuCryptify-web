@@ -88,7 +88,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
     if (selectedItem === 'Algorithm') {
       return (
         <div>
-          <h2>Algorithms</h2>
+          <h2 className='title'>Algorithms</h2>
           <ul>
             {list_of_algorithms.map((algorithm, i) => (
               <li key={i} onClick={() => {
@@ -106,7 +106,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
     if (selectedItem === 'Cryptosystem') {
       return (
         <div>
-          <h2>Cryptography Systems</h2>
+          <h2 className='title'>Cryptography Systems</h2>
           <ul>
             {list_of_cryptosystems.map((cryptosystemType, i) => (
               <li key={i} onClick={() => {
@@ -125,7 +125,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
     if (selectedItem === 'DigitalSignature') {
       return (
         <div>
-          <h2>Digital Signature</h2>
+          <h2 className='title'>Digital Signature</h2>
           <ul>
             {list_of_digitalsignatures.map((dsscheme, i) => (
               <li key={i} onClick={() => {
@@ -144,7 +144,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
     if (selectedItem ==='Blog') {
       return (
         <div>
-          <h2>{selectedItem}</h2>
+          <h2 className='title'>{selectedItem}</h2>
           <ul>
             {blogTitles.map((blog, index) => (
               <li key={index} onClick = {() => {setSelectedSubItem(blog.title); setBlogContent(blog.content)}}>{blog.title}</li>
@@ -227,20 +227,3 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
 }
 
 export default SectionB;
-
-/*
-try {
-        const response = await fetch('http://127.0.0.1:8000/myapp/blog/', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-        });
-        const data = await response.json();
-        var list_of_digitalsignatures = []
-        for (var i = 0; i < data.length; i++) {
-          list_of_digitalsignatures.push(data[i].title)
-        }
-        console.log(list_of_digitalsignatures)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-*/

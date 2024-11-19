@@ -33,3 +33,8 @@ input {
     font-weight: bold;
     color: #002e30;
   }
+  .api-result {
+    margin-top: 10px; /* Khoảng cách phía trên */
+    margin-bottom: 10px; /* Khoảng cách phía dưới */
+    width: 100%; /* Đảm bảo ô chiếm toàn bộ chiều rộng */
+  }

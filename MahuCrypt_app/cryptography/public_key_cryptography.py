@@ -19,7 +19,7 @@ def create_RSA_keys(bits):
     phi_n = (p - 1) * (q - 1)
     e = get_prime_number(bits - 1)
     d = Ext_Euclide(e, phi_n)[1] % phi_n
-    return {"public_key": (n, e), "private_key": {"d": d, "p": p, "q": q}}
+    return {"public_key": { "n" : str(n), "e": str(e)}, "private_key": {"d": str(d), "p": str(p), "q": str(q)}}
 
 #Create El Gamal keys
 
@@ -28,7 +28,7 @@ def create_ELGAMAL_keys(bits):
     alpha = 2
     a = secrets.randbelow(p - 1) + 1
     beta = modular_exponentiation(alpha, a, p)
-    return {"public_key": {"p": p, "alpha" : alpha, "beta": beta}, "private_key - a": a}
+    return {"public_key": {"p": str(p), "alpha" : str(alpha), "beta": str(beta)}, "private_key - a": str(a)}
 
 #Create ECC keys
 def create_ECC_keys(bits):
@@ -55,7 +55,7 @@ def create_ECC_keys(bits):
     P = find_point_on_curve(p, a, b)
     s = secrets.randbelow(p - 1) + 1
     B = double_and_add(P, s, a, p)
-    return {"public_key": {"p": p, "a": a, "b": b, "P": P, "B":B}, "private_key": s, "public_details": {"number_of_points": l}}
+    return {"public_key": {"p": str(p), "a": str(a), "b": str(b), "P": str(P), "B":str(B)}, "private_key": str(s), "public_details": {"number_of_points": str(l)}}
 
 def create_ECDSA_keys(p, a, b, n):
     q = largest_prime_factor(n)
@@ -64,7 +64,7 @@ def create_ECDSA_keys(p, a, b, n):
     G = double_and_add(P, h, a, p)
     d = secrets.randbelow(q - 1) + 1
     Q = double_and_add(G, d, a, p)
-    return {"public_key": {"p": p, "q": q, "a": a, "b": b, "G": G, "Q": Q}, "private_key": d}
+    return {"public_key": {"p": str(p), "q": str(q), "a": str(a), "b": str(b), "G": str(G), "Q": str(Q)}, "private_key": str(d)}
 
 #Encrypt message using RSA system
 
@@ -78,7 +78,7 @@ def EN_RSA(string, public_key):
     encrypted = []
     for sub_str in sub_str_bas26:
         encrypted.append(modular_exponentiation(sub_str, e, n))
-    return encrypted
+    return str(encrypted)
 
 #Decrypt message using RSA system
 
@@ -96,7 +96,7 @@ def DE_RSA(encrypted, private_key):
     for sub_str in encrypted_message:
         decrypted.append(modular_exponentiation(sub_str, d, n))
     decrypted_str = "".join([convert_int_to_str(sub_str) for sub_str in decrypted])
-    return decrypted_str
+    return {"Decrypted": decrypted_str}
 
 #Encrypt message using El Gamal system
 
@@ -113,7 +113,7 @@ def EN_ELGAMAL(string, public_key):
         y1 = modular_exponentiation(alpha, k, p)
         y2 = (sub_str * modular_exponentiation(beta, k, p)) % p
         encrypted.append((y1, y2))
-    return encrypted
+    return {"Encrypted": encrypted}
 
 #Decrypt message using El Gamal system
 
@@ -136,7 +136,7 @@ def DE_ELGAMAL(encrypted_message_str, p , private_key):
         sub_str = (y2 * modular_exponentiation(y1, p - 1 - a, p)) % p
         decrypted.append(sub_str)
     decrypted_str = "".join([convert_int_to_str(sub_str) for sub_str in decrypted])
-    return decrypted_str
+    return {"Decrypted": decrypted_str}
 
 #Encrypt message using Elliptic Curve system
 
@@ -173,24 +173,4 @@ def DE_ECC(encrypted_message_str, public_key, private_key):
         tmp = (sC1[0], -sC1[1])
         decrypted_point = add_points(C2, tmp, a, p)
         decrypted_points.append(decrypted_point)
-    return decrypted_points
-
-
-
-def Vigenere_encrypt(string, key):
-    """
-    Encrypts the string using the Vigenere algorithm
-    """
-    encrypted = []
-    for i in range(len(string)):
-        encrypted.append(65 + (ord(string[i]) + ord(key[i % len(key)])) % 26)
-    return encrypted
-
-def Vigenere_decrypt(encrypted, key):
-    """
-    Decrypts the string using the Vigenere algorithm
-    """
-    decrypted = []
-    for i in range(len(encrypted)):
-        decrypted.append(chr((encrypted[i] - 65 - ord(key[i % len(key)])) % 26 + 65))
-    return "".join(decrypted)
+    return {"Decrypted": str(decrypted_points)}
