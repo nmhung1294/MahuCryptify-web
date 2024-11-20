@@ -1,7 +1,6 @@
 // SectionB.js
 import React, { useState, useEffect } from 'react';
 import './SectionB.css';
-import FormComponent from './FormCryptosystemComponent';
 import FormComponentDS from './FormDigitalSignatureComponent';
 import FormComponentAlgo from './FormAlgoComponent';
 import axios from 'axios';
@@ -12,14 +11,16 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
   const [algo, setAlgo] = useState(null);
   const [blogTitles, setBlogTitles] = useState([]);
   const [blogContent, setBlogContent] = useState(null);
+  const [csystems_list, setCsystems_list] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [apiResult, setApiResult] = useState(null);
+  
   useEffect(() => {
     if (selectedItem && selectedItem === 'Blog') {
       // Fetch blog titles from the API
       axios.get('http://127.0.0.1:8000/myapp/blog/')
         .then(response => {
           const data = response.data;
-          console.log(response);
-          console.log(data);
           var list_of_blog = []
           for (var i = 0; i < data.length; i++) {
             list_of_blog.push({"id" : data[i]._id, "title" : data[i].title, "content" : data[i].content})
@@ -31,17 +32,74 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         });
     }
   }, [selectedItem]);
+  
+  useEffect(() => {
+    if (selectedItem && selectedItem === 'Cryptosystem') {
+      // Fetch blog titles from the API
+      axios.get('http://127.0.0.1:8000/myapp/cryptosystems/')
+        .then(response => {
+          const data = response.data;
+          var list_of_csystems = [];
+          for (var i = 0; i < data.length; i++) {
+            list_of_csystems.push({
+              id: data[i]._id, 
+              title: data[i].title,
+              fields: { 
+                create_key: data[i].fields.create_key, 
+                encrypt: data[i].fields.encrypt,
+                decrypt: data[i].fields.decrypt
+              },
+              encrypt: data[i].encrypt, 
+              decrypt: data[i].decrypt 
+            });
+          }
+          setCsystems_list(list_of_csystems);
+        })
+        .catch(error => {
+          console.error('There was an error fetching the cryptosystems!', error);
+        });
+    }
+  }, [selectedItem]);
+
+  useEffect(() => {
+    setFormData({});
+    setApiResult(null);
+  }, [cryptosystemType]);
+  useEffect(() => {setApiResult(null);}, [selectedSubItem]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e, apiUrl) => {
+    e.preventDefault(); 
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      setApiResult(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const renderSubItemContent = () => {
     if (!selectedSubItem) return null;
-
+    const excludedSubItems = ['Shift Cipher', 'Vigenère Cipher', 'Hill Cipher', 'Affine Cipher'];
     return (
       <div>
         <h3>{selectedSubItem}</h3>
         <ul>
-          <li onClick={() => {
-            setPreviousSubItem(selectedSubItem);
-            setSelectedSubItem('Create Key');
-          }}>Create Key</li>
+          {!excludedSubItems.includes(selectedSubItem) && (
+            <li onClick={() => {
+              setPreviousSubItem(selectedSubItem);
+              setSelectedSubItem('Create Key');
+            }}>Create Key</li>
+          )}
           <li onClick={() => {
             setPreviousSubItem(selectedSubItem);
             setSelectedSubItem('Encrypt');
@@ -108,12 +166,12 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         <div>
           <h2 className='title'>Cryptography Systems</h2>
           <ul>
-            {list_of_cryptosystems.map((cryptosystemType, i) => (
+            {csystems_list.map((cryptosystemType, i) => (
               <li key={i} onClick={() => {
-                setSelectedSubItem(cryptosystemType);
-                setCryptosystemType(cryptosystemType);
+                setSelectedSubItem(cryptosystemType.title);
+                setCryptosystemType(i);
               }}>
-                {cryptosystemType}
+                {cryptosystemType.title}
               </li>
             ))}
           </ul>
@@ -155,6 +213,25 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
     }
   };
 
+  const renderFormFields = () => {
+    const formType = selectedSubItem.toLowerCase().replace(' ', '_');
+    const list_fields = csystems_list[cryptosystemType].fields[formType];
+    if (!list_fields || list_fields.length === 0) {
+      return <p>No fields available for this form type.</p>;
+    }
+  
+    return list_fields.map((field, index) => (
+      <input
+        key={index}
+        type={field.type}
+        name={field.name}
+        value={formData[field.name] || ''}
+        onChange={handleInputChange}
+        placeholder={field.placeholder}
+      />
+    ));
+  };
+
   const renderContent = () => {
     if (!selectedItem) {
       return <div>Trang trống màu xanh</div>;
@@ -174,16 +251,36 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         else {return renderSelectedContent();}
       case 'Cryptosystem':
         switch (selectedSubItem) {
-          case 'Create Key':
+          case 'Create Key': 
           case 'Encrypt':
           case 'Decrypt':
+            var form_type = selectedSubItem.toLowerCase().replace(' ', '_')
+            var apiUrl=`http://127.0.0.1:8000/myapp/cryptosystem/${csystems_list[cryptosystemType].title?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`
             return (
-              <FormComponent
-                formType={selectedSubItem}
-                cryptosystemType={cryptosystemType}
-                apiUrl={`http://127.0.0.1:8000/myapp/cryptosystem/${cryptosystemType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
-                onBack={() => setSelectedSubItem(previousSubItem)}
-              />
+              <div className="form-container">
+                <h3 className='title'>{selectedSubItem} - {csystems_list[cryptosystemType].title}</h3>
+                <form onSubmit={(e) => handleSubmit(e, apiUrl)}>
+                  {renderFormFields()}
+                  <button type="submit">Submit</button>
+                </form>
+                <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
+                {apiResult && (
+                  <div className="api-result">
+                    <h4>API Result:</h4>
+                    <textarea
+                      value={JSON.stringify(apiResult, (key, value) => {
+                        if (typeof value === 'number') {
+                          return value.toString();
+                        }
+                        return value;
+                      }, 2)}
+                      readOnly 
+                      rows={10}
+                      style={{ width: '90%', padding: '10px',margin: '20px', borderRadius: '4px', border: '1px solid #ccc' }} // Thêm kiểu
+                    />
+                  </div>
+                )}
+              </div>
             );
           default:
             return renderSelectedContent();
@@ -209,7 +306,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
             return (
               <div>
                 <h2>{selectedSubItem}</h2>
-                <p>{blogContent}</p>
+                <div dangerouslySetInnerHTML={{ __html: blogContent }} />
                 <button onClick={resetSelection}>Back to Main</button>
               </div>
             )

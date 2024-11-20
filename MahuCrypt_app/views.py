@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from MahuCrypt_app.cryptography.public_key_cryptography import *
+from MahuCrypt_app.cryptography.classical_cryptography import *
 from MahuCrypt_app.model_mongo import UserModel
 
 class HandleSubmitCryptoSystem(APIView):
@@ -92,13 +93,96 @@ class HandleSubmitCryptoSystem(APIView):
         result = DE_ECC(encrypted_message, {"a": a, "p" : p}, s)
         return Response(result)
     
+    @api_view(['POST'])
+    def encrypt_shift_cipher(request):
+        data = request.data
+        message = data['message']
+        key = int(data['key'])
+        encrypted_message = En_Shift_Cipher(message, key)
+        return Response(encrypted_message)
+
+    @api_view(['POST'])
+    def decrypt_shift_cipher(request):
+        data = request.data
+        encrypted_message = data['encrypted_message']
+        key = int(data['key'])
+        decrypted_message = De_Shift_Cipher(encrypted_message, key)
+        return Response(decrypted_message)
+    
+    @api_view(['POST'])
+    def encrypt_vigenere_cipher(request):
+        data = request.data
+        message = data['message']
+        key = data['key']
+        encrypted_message = En_Vigenere_Cipher(message, key)
+        return Response(encrypted_message)
+    
+    @api_view(['POST'])
+    def decrypt_vigenere_cipher(request):
+        data = request.data
+        encrypted_message = data['encrypted_message']
+        key = data['key']
+        decrypted_message = De_Vigenere_Cipher(encrypted_message, key)
+        return Response(decrypted_message)
+
+    @api_view(['POST'])
+    def encrypt_hill_cipher(request):
+        data = request.data
+        message = data['message']
+        key = data['key']
+        encrypted_message = En_Hill_Cipher(message, key)
+        return Response(encrypted_message)
+    
+    @api_view(['POST'])
+    def decrypt_hill_cipher(request):
+        data = request.data
+        encrypted_message = data['encrypted_message']
+        key = data['key']
+        decrypted_message = De_Hill_Cipher(encrypted_message, key)
+        return Response(decrypted_message)
+
+    @api_view(['POST'])
+    def encrypt_affine_cipher(request):
+        data = request.data
+        message = data['message']
+        encrypted_message = En_Affine_Cipher(message)
+        return Response(encrypted_message)
+
+    @api_view(['POST'])
+    def decrypt_affine_cipher(request):
+        data = request.data
+        encrypted_message = data['encrypted_message']
+        a = int(data['a'])
+        b = int(data['b'])
+        decrypted_message = De_Affine_Cipher(encrypted_message, a, b)
+        return Response(decrypted_message)
+
     @api_view(['GET'])
     def test(request):
         user_data = UserModel.get_blog_by_id('67370eaab590cec3ccf1423d')
         return Response(user_data)
     @api_view(['GET'])
-    def get_all_blog(request):
-        blogs = UserModel.get_all_blogs()
+    def get_all_blogs(request):
+        blogs = UserModel.get_all_collection('blog')
         # Convert ObjectId to string for JSON serialization
         blogs_list = [{"_id": str(blog["_id"]), "title": blog["title"], "content": blog["content"]} for blog in blogs]
         return Response(blogs_list)
+    
+    @api_view(['GET'])
+    def get_all_crypto_systems(request):
+        crypto_system = UserModel.get_all_collection('crypto_system')
+        # Convert ObjectId to string for JSON serialization
+        crypto_system_list = [
+            {
+                "_id": str(crypto["_id"]),  # Giữ nguyên
+                "title": crypto["title"],    # Giữ nguyên
+                "fields": {                  # Cập nhật để lấy các trường cho từng loại form
+                    "create_key": crypto["fields"]["create_key"],
+                    "encrypt": crypto["fields"]["encrypt"],
+                    "decrypt": crypto["fields"]["decrypt"]
+                },
+                "encrypt": crypto["encrypt"], # Giữ nguyên nếu cần thiết
+                "decrypt": crypto["decrypt"]  # Giữ nguyên nếu cần thiết
+            } for crypto in crypto_system
+        ]
+        return Response(crypto_system_list)

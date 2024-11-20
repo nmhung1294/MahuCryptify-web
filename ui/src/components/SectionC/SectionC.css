@@ -3,29 +3,23 @@
   width: 30%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
+  box-shadow: 0 0 10px rgba(245, 197, 108, 0.1); /* Thêm box-shadow */
 }
 
 .section-c1, .section-c2, .section-c3, .section-c4 {
   margin: 10px; 
+  background-color: rgba(0, 0, 0, 0.15);
 }
-
-/* .section-c1 {
-  height: calc(20% - 20px);
-  background-color: #d0d0d0; 
-} */
 
 .section-c2 {
   height: calc(40% - 20px); 
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  background-color: #c0c0c0; 
 }
 
 .section-c3 {
   height: calc(40% - 20px);
-  background-color: #b0b0b0;
 }
 
 .blog-list {
@@ -36,7 +30,6 @@
 
 .section-c4 {
   height: calc(20% - 20px); 
-  background-color: #a0a0a0;
 }
 
 .introblog {
@@ -46,4 +39,37 @@
 
 .can_click{
   cursor: pointer;
+}
+.can_click:hover{
+  color: rgb(7, 115, 129);
+}
+
+input {
+  margin: 5px 17%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 60%;
+}
+#login {
+  text-decoration: none;
+  color: rgb(2, 29, 32);
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+.support {
+  margin: 10px 0px 20px 0px;
+}
+.support a{
+  text-decoration: none;
+  color: rgb(2, 29, 32);
+  font-size: 17px;
+  margin: 40%;
+  padding: 5px;
+}
+.support a:hover{
+  color: rgb(7, 115, 129);
+  font-weight: bolder;
 }

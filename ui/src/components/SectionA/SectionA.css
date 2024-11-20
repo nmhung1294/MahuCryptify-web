@@ -1,27 +1,29 @@
 /* SectionA.css */
 .section-a {
-    width: 180px;
+    width: 20%;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
   }
   
   .section-a1, .section-a2, .section-a3 {
-    margin: 5px; /* Thêm margin cho các phần nhỏ */
+    margin: 10px; /* Thêm margin cho các phần nhỏ */
+    background-color: rgba(0, 0, 0, 0.15);
   }
   
   .section-a1 {
-    height: calc(30% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
-    background-color: #f0f0f0; /* Màu nền cho logo */
+    height: calc(30% - 10px);
+    background-image: url('./MahuCryptify.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
   }
   
   .section-a2 {
-    height: calc(50% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
-    background-color: #e0e0e0; /* Màu nền cho intro */
+    height: calc(50% - 10px); 
   }
   .section-a3 {
-    height: calc(20% - 10px); /* Điều chỉnh chiều cao để trừ đi margin */
-    background-color: #e0e0e0; /* Màu nền cho intro */
+    height: calc(20% - 10px);
   }
   #intro {
     margin: 10px;
@@ -35,4 +37,12 @@
     text-decoration: none;
     color: blue;
     margin: 25%;
+  }
+  .social-media-image {
+    width: 50px;
+    height: 50px;
+    margin: 13%;
+    margin-top: 0;
+    margin-bottom: 0;
+    align-self:center;
   }

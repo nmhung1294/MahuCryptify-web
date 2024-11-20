@@ -29,6 +29,7 @@ input {
     align-items: center;
   }
   h3 {
+    margin-top: 30px;
     text-align: center;
     font-weight: bold;
     color: #002e30;

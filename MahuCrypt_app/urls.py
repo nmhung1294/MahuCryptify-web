@@ -7,7 +7,8 @@ urlpatterns = [
     # path('cryptosystem/rsa/sign/', HandleSubmitCryptoSystem.sign_RSA, name='sign_RSA'),
     # path('cryptosystem/rsa/verify/', HandleSubmitCryptoSystem.verify_RSA, name='verify_RSA'),
     path('test/', HandleSubmitCryptoSystem.test, name='test'),
-    path('blog/', HandleSubmitCryptoSystem.get_all_blog, name='get_all_blog'),
+    path('blog/', HandleSubmitCryptoSystem.get_all_blogs, name='get_all_blogs'),
+    path('cryptosystems/', HandleSubmitCryptoSystem.get_all_crypto_systems, name='get_all_crypto_systems'),
     path('cryptosystem/elgamal/create_key/', HandleSubmitCryptoSystem.gen_ElGamal_key, name='gen_ElGamal_key'),
     path('cryptosystem/elgamal/encrypt/', HandleSubmitCryptoSystem.encrypt_ElGamal, name='encrypt_ElGamal'),
     path('cryptosystem/elgamal/decrypt/', HandleSubmitCryptoSystem.decrypt_ElGamal, name='decrypt_ElGamal'),
@@ -18,5 +19,14 @@ urlpatterns = [
     path('cryptosystem/elliptic_curve/decrypt/', HandleSubmitCryptoSystem.decrypt_Elliptic_curve, name='decrypt_Elliptic_curve'),
     # path('cryptosystem/elliptic_curve/sign/', HandleSubmitCryptoSystem.sign_Elliptic_curve, name='sign_Elliptic_curve'),
     # path('cryptosystem/elliptic_curve/verify/', HandleSubmitCryptoSystem.verify_Elliptic_curve, name='verify_Elliptic_curve'),
+
+    path('cryptosystem/shift_cipher/encrypt/', HandleSubmitCryptoSystem.encrypt_shift_cipher, name='encrypt_shift_cipher'),
+    path('cryptosystem/shift_cipher/decrypt/', HandleSubmitCryptoSystem.decrypt_shift_cipher, name='decrypt_shift_cipher'),
+    path('cryptosystem/affine_cipher/encrypt/', HandleSubmitCryptoSystem.encrypt_affine_cipher, name='encrypt_affine_cipher'),
+    path('cryptosystem/affine_cipher/decrypt/', HandleSubmitCryptoSystem.decrypt_affine_cipher, name='decrypt_affine_cipher'),
+    path('cryptosystem/vigenère_cipher/encrypt/', HandleSubmitCryptoSystem.encrypt_vigenere_cipher, name='encrypt_vigenere_cipher'),
+    path('cryptosystem/vigenère_cipher/decrypt/', HandleSubmitCryptoSystem.decrypt_vigenere_cipher, name='decrypt_vigenere_cipher'),
+    path('cryptosystem/hill_cipher/encrypt/', HandleSubmitCryptoSystem.encrypt_hill_cipher, name='encrypt_hill_cipher'),
+    path('cryptosystem/hill_cipher/decrypt/', HandleSubmitCryptoSystem.decrypt_hill_cipher, name='decrypt_hill_cipher'),
 ]
 

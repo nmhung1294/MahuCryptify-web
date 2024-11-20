@@ -12,7 +12,7 @@ def En_Shift_Cipher(string, shift):
             shifted_string += chr((ord(char) - 65 + shift) % 26 + 65)
         else:
             shifted_string += char
-    return shifted_string
+    return {"Encrypted": shifted_string, "Key": shift}
 
 def De_Shift_Cipher(string, shift):
     """
@@ -24,19 +24,30 @@ def De_Shift_Cipher(string, shift):
             shifted_string += chr((ord(char) - 65 - shift) % 26 + 65)
         else:
             shifted_string += char
-    return shifted_string
+    return {"Decrypted" : shifted_string}
 
-def En_Affine_Cipher(string, a, b):
+def Create_Affine_Cipher_Key():
+    """
+    Creates a key for the affine cipher
+    """
+    a = random.randint(1, 25)
+    b = random.randint(1, 25)
+    while math.gcd(a, 26) != 1:
+        a = random.randint(1, 25)
+    return a, b
+
+def En_Affine_Cipher(string):
     """
     Encrypts the string using the affine cipher
     """
     encrypted_string = ""
+    a, b = Create_Affine_Cipher_Key()
     for char in string:
         if char.isalpha():
             encrypted_string += chr((a * (ord(char) - 65) + b) % 26 + 65)
         else:
             encrypted_string += char
-    return encrypted_string
+    return {"Encrypted": encrypted_string, "Key": {"a" : a, "b" : b}}
 
 def De_Affine_Cipher(string, a, b):
     """
@@ -48,7 +59,7 @@ def De_Affine_Cipher(string, a, b):
             decrypted_string += chr(((ord(char) - 65 - b) * Ext_Euclide(a, 26)[1]) % 26 + 65)
         else:
             decrypted_string += char
-    return decrypted_string
+    return {"Decrypted": decrypted_string}
 
 def En_Vigenere_Cipher(string, key):
     """
@@ -59,11 +70,13 @@ def En_Vigenere_Cipher(string, key):
     for i, char in enumerate(string):
         if char.isalpha():
             shift = ord(key[i % key_length].upper()) - 65
-            encrypted_string += chr((ord(char) - 65 + shift) % 26 + 65)
+            if char.isupper():
+                encrypted_string += chr((ord(char) - 65 + shift) % 26 + 65)
+            else:
+                encrypted_string += chr((ord(char) - 97 + shift) % 26 + 97)
         else:
             encrypted_string += char
-    return encrypted_string
-
+    return {"Encrypted": encrypted_string, "Key": key}
 def De_Vigenere_Cipher(string, key):
     """
     Decrypts the string using the Vigenere cipher
@@ -73,10 +86,13 @@ def De_Vigenere_Cipher(string, key):
     for i, char in enumerate(string):
         if char.isalpha():
             shift = ord(key[i % key_length].upper()) - 65
-            decrypted_string += chr((ord(char) - 65 - shift) % 26 + 65)
+            if char.isupper():
+                decrypted_string += chr((ord(char) - 65 - shift) % 26 + 65)
+            else:
+                decrypted_string += chr((ord(char) - 97 - shift) % 26 + 97)
         else:
             decrypted_string += char
-    return decrypted_string
+    return {"Decrypted": decrypted_string}
 
 def En_Hill_Cipher(string, key):
     """
@@ -97,7 +113,7 @@ def En_Hill_Cipher(string, key):
         encrypted_block = np.dot(key_matrix, block) % 26
         for char in encrypted_block:
             encrypted_string += chr(char[0] + 65)
-    return encrypted_string
+    return {"Encrypted": encrypted_string, "Key": key}
 
 def De_Hill_Cipher(string, key):
     """
@@ -120,4 +136,4 @@ def De_Hill_Cipher(string, key):
         decrypted_block = np.dot(key_matrix, block) % 26
         for char in decrypted_block:
             decrypted_string += chr(char[0] + 65)
-    return decrypted_string
+    return {"Decrypted": decrypted_string}

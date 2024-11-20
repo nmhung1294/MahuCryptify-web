@@ -8,6 +8,3 @@ client = MongoClient(uri)
 
 # Truy cập database của bạn, ví dụ: 'mahucrypt'
 db_conf = client['MahuCrypt']
-
-# Truy cập collection, ví dụ: 'users'
-users_collection = db_conf['blog']

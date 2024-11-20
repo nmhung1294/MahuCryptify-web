@@ -294,7 +294,7 @@ function FormComponent({ formType, cryptosystemType, apiUrl, onBack }) {
 
   return (
     <div className="form-container">
-    <h3>{formType} - {cryptosystemType}</h3>
+    <h3 className='title'>{formType} - {cryptosystemType}</h3>
     <form onSubmit={handleSubmit}>
       {renderFormFields()}
       <button type="submit">Submit</button>

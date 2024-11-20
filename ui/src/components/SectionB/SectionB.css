@@ -1,12 +1,16 @@
 /* SectionB.css */
 .section-b {
   width: 50%;
-  background-color: rgb(176, 181, 182); /* Màu xanh cho trang trống */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm box-shadow */
-  height: calc(100% - 20px); /* Điều chỉnh chiều cao để trừ đi margin */
+  /* background-color: rgba(0, 0, 0, 0.15); */
+  background-image: url('./B.png');
+  background-size: cover;
+  height: calc(100% - 40px); /* Điều chỉnh chiều cao để trừ đi margin */
   overflow-y: auto; /* Thêm scroll nếu nội dung quá dài */
-  padding: 10px; /* Thêm padding cho nội dung */
+  padding: 10px;
   color: white; /* Màu chữ */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 li {
@@ -23,6 +27,76 @@ li:hover {
 }
 
 .title {
+  margin-top: 30px;
   text-align: center;
   color: rgb(3, 52, 66);
+}
+
+.blog-post {
+  /* margin: 10px; */
+  font-size: 17px;
+  color: black;
+}
+.blog-post {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+.blog-post h2, .blog-post h3 {
+  color: #007BFF;
+}
+
+.blog-post ul, .blog-post ol {
+  margin: 0 0 1rem 2rem;
+}
+
+.blog-post p {
+  margin: 0 0 1rem;
+}
+
+.blog-post strong {
+  color: black;
+}
+
+input {
+  padding: 10px;
+  margin: 5px 20%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 60%;
+}
+
+button {
+  padding: 10px 15px;
+  width: 14%;
+  margin: 5px 43%;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff; /* Màu nền */
+  color: white; /* Màu chữ */
+  cursor: pointer; /* Con trỏ khi hover */
+  align-items: center;
+}
+
+button:hover {
+  background-color: #0056b3; /* Màu nền khi hover */
+}
+
+.inp_message {
+  height: 70px;
+}
+.form-container {
+  align-items: center;
+}
+h3 {
+  margin-top: 30px;
+  text-align: center;
+  font-weight: bold;
+  color: #002e30;
+}
+.api-result {
+  margin-top: 10px; /* Khoảng cách phía trên */
+  margin-bottom: 10px; /* Khoảng cách phía dưới */
+  width: 100%; /* Đảm bảo ô chiếm toàn bộ chiều rộng */
 }
