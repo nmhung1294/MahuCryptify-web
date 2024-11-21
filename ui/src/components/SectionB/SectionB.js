@@ -321,7 +321,35 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
       />
     ));
   };
+  function renderObject(obj) {
+    return Object.keys(obj).map((key) => (
+      <div key={key} style={{ marginBottom: '10px', marginLeft: '20px' }}>
+        <strong>{key.replace(/_/g, ' ')}:</strong> {renderValue(obj[key])}
+      </div>
+    ));
+  }
 
+  function renderValue(value) {
+    if (typeof value === 'object' && value !== null) {
+      return (
+        <div style={{ marginLeft: '20px', paddingLeft: '10px' }}>
+          {renderObject(value)}
+        </div>
+      );
+    } else {
+      // Nếu không, hiển thị trực tiếp
+      return (
+        <div style= {{ 
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          overflowWrap: 'break-word' 
+        }}>
+          {value.toString()}
+        </div>
+      );
+    }
+  }
+  
   const renderContent = () => {
     if (!selectedItem) {
       return <div>Trang trống màu xanh</div>;
@@ -363,7 +391,6 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           case 'Create Key':
           case 'Encrypt':
           case 'Decrypt':
-            // var form_type = selectedSubItem.toLowerCase().replace(' ', '_')
             let apiUrl = `http://127.0.0.1:8000/myapp/cryptosystem/${csystems_list[cryptosystemType].title?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`
             return (
               <div className="form-container">
@@ -375,7 +402,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
                 {apiResult && (
                   <div className="api-result">
-                    {/* <h4>API Result:</h4> */}
+                    {/* <h4>API Result:</h4>
                     <textarea
                       value={JSON.stringify(apiResult, (key, value) => {
                         if (typeof value === 'number') {
@@ -386,8 +413,13 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                       readOnly
                       rows={10}
                       style={{ width: '90%', padding: '10px', margin: '20px', borderRadius: '4px', border: '1px solid #ccc' }} // Thêm kiểu
-                    />
+                    /> */}
+                   <h4>Result:</h4>
+                    <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
+                      {renderObject(apiResult)}
+                    </div>
                   </div>
+
                 )}
               </div>
             );
