@@ -171,3 +171,8 @@ def is_primitive_root(p, a):
         if pow(a, (p - 1) // factor, p) == 1:
             return False
     return True
+
+#check if a point is on the curve
+def is_point_on_curve(point, a, b, p):
+    x, y = point
+    return (y**2 - (x**3 + a*x + b)) % p == 0
