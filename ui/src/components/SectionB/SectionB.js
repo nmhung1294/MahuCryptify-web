@@ -1,7 +1,6 @@
 // SectionB.js
 import React, { useState, useEffect } from 'react';
 import './SectionB.css';
-import FormComponentAlgo from './FormAlgoComponent';
 import axios from 'axios';
 function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSelection }) {
   const [previousSubItem, setPreviousSubItem] = useState(null);
@@ -358,7 +357,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
     switch (selectedItem) {
       case 'Algorithm':
         if (selectedSubItem) {
-          let apiUrl = `http://127.0.0.1:8000/myapp/algo/${algo_list[algo].title?.toLowerCase().replace(' ', '_')}/`
+          let apiUrl = `http://127.0.0.1:8000/myapp/algorithm/${algo_list[algo].title?.toLowerCase().replace(/ /g, '_')}/`
           return (
             <div className="form-container">
                 <h3 className='title'>{selectedSubItem}</h3>
@@ -369,18 +368,11 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
                 {apiResult && (
                   <div className="api-result">
-                    <textarea
-                      value={JSON.stringify(apiResult, (key, value) => {
-                        if (typeof value === 'number') {
-                          return value.toString();
-                        }
-                        return value;
-                      }, 2)}
-                      readOnly
-                      rows={10}
-                      style={{ width: '90%', padding: '10px', margin: '20px', borderRadius: '4px', border: '1px solid #ccc' }} // Thêm kiểu
-                    />
-                  </div>
+                  <h4>Result:</h4>
+                   <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
+                     {renderObject(apiResult)}
+                   </div>
+                 </div>
                 )}
               </div>
           )
@@ -391,7 +383,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
           case 'Create Key':
           case 'Encrypt':
           case 'Decrypt':
-            let apiUrl = `http://127.0.0.1:8000/myapp/cryptosystem/${csystems_list[cryptosystemType].title?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`
+            let apiUrl = `http://127.0.0.1:8000/myapp/cryptosystem/${csystems_list[cryptosystemType].title?.toLowerCase().replace(/ /g, '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`
             return (
               <div className="form-container">
                 <h3 className='title'>{selectedSubItem} - {csystems_list[cryptosystemType].title}</h3>
@@ -402,24 +394,11 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
                 {apiResult && (
                   <div className="api-result">
-                    {/* <h4>API Result:</h4>
-                    <textarea
-                      value={JSON.stringify(apiResult, (key, value) => {
-                        if (typeof value === 'number') {
-                          return value.toString();
-                        }
-                        return value;
-                      }, 2)}
-                      readOnly
-                      rows={10}
-                      style={{ width: '90%', padding: '10px', margin: '20px', borderRadius: '4px', border: '1px solid #ccc' }} // Thêm kiểu
-                    /> */}
                    <h4>Result:</h4>
                     <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
                       {renderObject(apiResult)}
                     </div>
                   </div>
-
                 )}
               </div>
             );
@@ -434,12 +413,6 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
             let ds_type = ds_list[DSType].title?.toLowerCase().replace(/ /g, '_')
             let apiUrl= `http://127.0.0.1:8000/myapp/digitalsignature/${ds_type}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`
             return (
-              // <FormComponentDS
-              //   formType={selectedSubItem}
-              //   DSType={DSType}
-              //   apiUrl={`http://127.0.0.1:8000/myapp/digitalsignature/${DSType?.toLowerCase().replace(' ', '_')}/${selectedSubItem.toLowerCase().replace(' ', '_')}/`}
-              //   onBack={() => setSelectedSubItem(previousSubItem)}
-              // />
               <div className="form-container">
                 <h3 className='title'>{selectedSubItem} - {ds_list[DSType].title}</h3>
                 <form onSubmit={(e) => handleSubmit(e, apiUrl)}>
@@ -449,19 +422,11 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
                 {apiResult && (
                   <div className="api-result">
-                    {/* <h4>API Result:</h4> */}
-                    <textarea
-                      value={JSON.stringify(apiResult, (key, value) => {
-                        if (typeof value === 'number') {
-                          return value.toString();
-                        }
-                        return value;
-                      }, 2)}
-                      readOnly
-                      rows={10}
-                      style={{ width: '90%', padding: '10px', margin: '20px', borderRadius: '4px', border: '1px solid #ccc' }} // Thêm kiểu
-                    />
-                  </div>
+                  <h4>Result:</h4>
+                   <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
+                     {renderObject(apiResult)}
+                   </div>
+                 </div>
                 )}
               </div>
             );
