@@ -1,14 +1,17 @@
 from django.urls import path
 from MahuCrypt_app.views import HandleSubmitCryptoSystem
 urlpatterns = [
+    path('test/', HandleSubmitCryptoSystem.test, name='test'),
+    path('blog/', HandleSubmitCryptoSystem.get_all_blogs, name='get_all_blogs'),
+    path('cryptosystems/', HandleSubmitCryptoSystem.get_all_crypto_systems, name='get_all_crypto_systems'),
+    path('digitalsignature/', HandleSubmitCryptoSystem.get_all_digital_signature, name='get_all_digital_signature'),
+    path('algorithm/', HandleSubmitCryptoSystem.get_all_algorithm, name='get_all_algorithm'),
+    
     path('cryptosystem/rsa/create_key/', HandleSubmitCryptoSystem.gen_RSA_key, name='gen_RSA_key'),
     path('cryptosystem/rsa/encrypt/', HandleSubmitCryptoSystem.encrypt_RSA, name='encrypt_RSA'),
     path('cryptosystem/rsa/decrypt/', HandleSubmitCryptoSystem.decrypt_RSA, name='decrypt_RSA'),
     # path('cryptosystem/rsa/sign/', HandleSubmitCryptoSystem.sign_RSA, name='sign_RSA'),
     # path('cryptosystem/rsa/verify/', HandleSubmitCryptoSystem.verify_RSA, name='verify_RSA'),
-    path('test/', HandleSubmitCryptoSystem.test, name='test'),
-    path('blog/', HandleSubmitCryptoSystem.get_all_blogs, name='get_all_blogs'),
-    path('cryptosystems/', HandleSubmitCryptoSystem.get_all_crypto_systems, name='get_all_crypto_systems'),
     path('cryptosystem/elgamal/create_key/', HandleSubmitCryptoSystem.gen_ElGamal_key, name='gen_ElGamal_key'),
     path('cryptosystem/elgamal/encrypt/', HandleSubmitCryptoSystem.encrypt_ElGamal, name='encrypt_ElGamal'),
     path('cryptosystem/elgamal/decrypt/', HandleSubmitCryptoSystem.decrypt_ElGamal, name='decrypt_ElGamal'),
@@ -28,5 +31,9 @@ urlpatterns = [
     path('cryptosystem/vigenère_cipher/decrypt/', HandleSubmitCryptoSystem.decrypt_vigenere_cipher, name='decrypt_vigenere_cipher'),
     path('cryptosystem/hill_cipher/encrypt/', HandleSubmitCryptoSystem.encrypt_hill_cipher, name='encrypt_hill_cipher'),
     path('cryptosystem/hill_cipher/decrypt/', HandleSubmitCryptoSystem.decrypt_hill_cipher, name='decrypt_hill_cipher'),
+
+    path('digitalsignature/digital_signature_using_rsa/create_key/', HandleSubmitCryptoSystem.gen_RSA_key, name='gen_RSA_key'),
+    path('digitalsignature/digital_signature_using_rsa/sign/', HandleSubmitCryptoSystem.sign_RSA, name='sign_RSA'),
+    path('digitalsignature/digital_signature_using_rsa/verify/', HandleSubmitCryptoSystem.verify_RSA, name='verify_RSA'),
 ]
 

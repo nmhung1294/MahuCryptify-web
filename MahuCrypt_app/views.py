@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from MahuCrypt_app.cryptography.public_key_cryptography import *
 from MahuCrypt_app.cryptography.classical_cryptography import *
+from MahuCrypt_app.cryptography.signature import *
 from MahuCrypt_app.model_mongo import UserModel
 
 class HandleSubmitCryptoSystem(APIView):
@@ -157,6 +158,47 @@ class HandleSubmitCryptoSystem(APIView):
         decrypted_message = De_Affine_Cipher(encrypted_message, a, b)
         return Response(decrypted_message)
 
+    @api_view(['POST'])
+    def create_key_sign_RSA(request):
+        data = request.data
+        bits = int(data['bits'])
+        key_RSA = create_RSA_keys(bits)
+        return Response(key_RSA)
+    
+    @api_view(['POST'])
+    def sign_RSA(request):
+        try:
+            data = request.data
+            message = data['message']
+            p = int(data['p'])
+            q = int(data['q'])
+            d = int(data['d'])
+            if (p == 0 or q == 0 or d == 0 or message == "" or message == None or d > p*q): 
+                return Response("Enter Again")
+            signed_message, hash_message = sign_RSA(message, {"p": p, "q": q, "d": d})
+            return Response({"signed_message": str(signed_message), "hash_message": str(hash_message)})
+        except:
+            return Response("Enter Again")
+
+    @api_view(['POST'])
+    def verify_RSA(request):
+        try:
+            data = request.data
+            hash_message_str = data['hash_message']
+            signed_message_str = data['signed']
+            signed_message_str = signed_message_str.strip("[]")
+            signed_message = [int(sub_str) for sub_str in signed_message_str.split(",")]
+            hash_message_str = hash_message_str.strip("[]")
+            hash_message = [int(sub_str) for sub_str in hash_message_str.split(",")]
+            n = int(data['n'])
+            e = int(data['e'])
+            if (n == 0 or e == 0 or hash_message_str == "" or hash_message_str == None or e > n): 
+                return Response("Enter Again")
+            result = verify_RSA(hash_message, signed_message, (n, e))
+            return Response("Verification:" + str(result))
+        except Exception as e:
+            return Response(str(e))
+    
     @api_view(['GET'])
     def test(request):
         user_data = UserModel.get_blog_by_id('67370eaab590cec3ccf1423d')
@@ -186,3 +228,33 @@ class HandleSubmitCryptoSystem(APIView):
             } for crypto in crypto_system
         ]
         return Response(crypto_system_list)
+    
+    @api_view(['GET'])
+    def get_all_digital_signature(request):
+        digital_signature = UserModel.get_all_collection('digital_signature')
+        digital_signature_list = [
+            {
+                "_id": str(digital["_id"]), 
+                "title": digital["title"],  
+                "fields": {                  
+                    "create_key": digital["fields"]["create_key"],
+                    "sign": digital["fields"]["sign"],
+                    "verify": digital["fields"]["verify"]
+                }
+            } for digital in digital_signature
+        ]
+        return Response(digital_signature_list)
+    
+    @api_view(['GET'])
+    def get_all_algorithm(request):
+        algorithm = UserModel.get_all_collection('algorithm')
+        algorithm_list = [
+            {
+                "_id": str(algo["_id"]), 
+                "title": algo["title"],  
+                "fields": {                  
+                    "input": algo["fields"]["input"],
+                }
+            } for algo in algorithm
+        ]
+        return Response(algorithm_list)

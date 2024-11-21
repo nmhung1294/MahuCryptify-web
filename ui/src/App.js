@@ -11,7 +11,7 @@ function App() {
 
   const handleSelectItem = (item) => {
     setSelectedItem(item);
-    setSelectedSubItem(null); // Reset sub-item when a new item is selected
+    setSelectedSubItem(null);
   };
 
   const resetSelection = () => {

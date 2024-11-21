@@ -1,5 +1,5 @@
-from algos import *
-from pre_process import *
+from MahuCrypt_app.cryptography.algos import *
+from MahuCrypt_app.cryptography.pre_process import *
 #from numpy import *
 
 def sign_RSA(string, private_key):
@@ -12,7 +12,7 @@ def sign_RSA(string, private_key):
     signed_x_RSA = []
     for sub_str in sub_str_base10:
         signed_x_RSA.append(modular_exponentiation(sub_str, d, n))
-    return signed_x_RSA
+    return signed_x_RSA, sub_str_base10
 
 def verify_RSA(hash_message, signed, public_key):
     n, e = public_key
@@ -89,7 +89,7 @@ def verify_ECDSA(hash_message, signed_x, public_sign_key):
         u2 = (r * w) % q
         u1G = double_and_add(G, u1, a, p)
         u2Q = double_and_add(Q, u2, a, p)
-        X = add(u1G, u2Q, a, p)
+        X = add_points(u1G, u2Q, a, p)
         
         if X[0] % q != r:
             return False
