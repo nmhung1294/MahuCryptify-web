@@ -78,7 +78,7 @@ def EN_RSA(string, public_key):
     encrypted = []
     for sub_str in sub_str_bas26:
         encrypted.append(modular_exponentiation(sub_str, e, n))
-    return str(encrypted)
+    return {"Encrypted": str(encrypted)}
 
 #Decrypt message using RSA system
 

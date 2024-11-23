@@ -1,7 +1,7 @@
 from MahuCrypt_app.cryptography.algos import *
 import numpy as np
-
-
+import math
+ 
 def En_Shift_Cipher(string, shift):
     """
     Shifts the string by the shift value
@@ -36,18 +36,18 @@ def Create_Affine_Cipher_Key():
         a = random.randint(1, 25)
     return a, b
 
-def En_Affine_Cipher(string):
+def En_Affine_Cipher(string, a, b):
     """
     Encrypts the string using the affine cipher
     """
     encrypted_string = ""
-    a, b = Create_Affine_Cipher_Key()
+    # a, b = Create_Affine_Cipher_Key()
     for char in string:
         if char.isalpha():
             encrypted_string += chr((a * (ord(char) - 65) + b) % 26 + 65)
         else:
             encrypted_string += char
-    return {"Encrypted": encrypted_string, "Key": {"a" : a, "b" : b}}
+    return {"Encrypted": encrypted_string}
 
 def De_Affine_Cipher(string, a, b):
     """

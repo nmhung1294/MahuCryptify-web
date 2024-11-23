@@ -14,7 +14,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
   const [algo_list, setAlgo_list] = useState([]);
   const [formData, setFormData] = useState({});
   const [apiResult, setApiResult] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (selectedItem && selectedItem === 'Blog') {
       // Fetch blog titles from the API
@@ -124,6 +124,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
 
   const handleSubmit = async (e, apiUrl) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading state to true
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -134,6 +135,8 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
       setApiResult(data);
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setIsLoading(false); // Reset loading state
     }
   };
 
@@ -280,6 +283,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         value={formData[field.name] || ''}
         onChange={handleInputChange}
         placeholder={field.placeholder}
+        required
       />
     ));
   };
@@ -298,6 +302,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         value={formData[field.name] || ''}
         onChange={handleInputChange}
         placeholder={field.placeholder}
+        required
       />
     ));
   };
@@ -317,32 +322,83 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
         value={formData[field.name] || ''}
         onChange={handleInputChange}
         placeholder={field.placeholder}
+        required
       />
     ));
   };
+  // function renderObject(obj) {
+  //   return Object.keys(obj).map((key) => (
+  //     <div key={key} style={{ marginBottom: '10px', marginLeft: '20px' }}>
+  //       <strong>{key.replace(/_/g, ' ')}:</strong> {renderValue(obj[key])}
+  //     </div>
+  //   ));
+  // }
+
+  // function renderValue(value) {
+  //   if (typeof value === 'object' && value !== null) {
+  //     return (
+  //       <div style={{ marginLeft: '20px', paddingLeft: '10px' }}>
+  //         {renderObject(value)}
+  //       </div>
+  //     );
+  //   } else {
+  //     return (
+  //       <div style= {{ 
+  //         whiteSpace: 'normal',
+  //         wordBreak: 'break-word',
+  //         overflowWrap: 'break-word' 
+  //       }}>
+  //         {value.toString()}
+  //       </div>
+  //     );
+  //   }
+  // }
   function renderObject(obj) {
     return Object.keys(obj).map((key) => (
-      <div key={key} style={{ marginBottom: '10px', marginLeft: '20px' }}>
-        <strong>{key.replace(/_/g, ' ')}:</strong> {renderValue(obj[key])}
+      <div
+        key={key}
+        style={{
+          marginBottom: '15px',
+          marginLeft: '20px',
+          padding: '10px',
+          backgroundColor: '#f8f9fa', // Màu nền nhẹ để phân biệt các phần tử
+          borderRadius: '5px',         // Bo góc cho đẹp hơn
+          border: '1px solid #e0e0e0', // Viền nhẹ để phân cách
+        }}
+      >
+        <strong style={{ color: '#333' }}>{key.replace(/_/g, ' ')}</strong>
+        <div style={{ marginTop: '5px' }}>{renderValue(obj[key])}</div>
       </div>
     ));
   }
-
+  
   function renderValue(value) {
     if (typeof value === 'object' && value !== null) {
       return (
-        <div style={{ marginLeft: '20px', paddingLeft: '10px' }}>
+        <div
+          style={{
+            marginLeft: '20px',
+            paddingLeft: '10px',
+            borderLeft: '3px solid #d0d0d0', // Viền trái để phân biệt cấp độ
+            color: 'black', // Màu chữ đen cho các giá trị con
+          }}
+        >
           {renderObject(value)}
         </div>
       );
     } else {
-      // Nếu không, hiển thị trực tiếp
       return (
-        <div style= {{ 
-          whiteSpace: 'normal',
-          wordBreak: 'break-word',
-          overflowWrap: 'break-word' 
-        }}>
+        <div
+          style={{
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            overflowWrap: 'break-word',
+            backgroundColor: '#ffffff', // Màu nền trắng cho các giá trị đơn
+            padding: '5px',
+            borderRadius: '3px',
+            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.1)', // Tạo bóng nhẹ
+          }}
+        >
           {value.toString()}
         </div>
       );
@@ -368,7 +424,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
                 {apiResult && (
                   <div className="api-result">
-                  <h4>Result:</h4>
+                  {/* <h4>Result:</h4> */}
                    <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
                      {renderObject(apiResult)}
                    </div>
@@ -392,9 +448,10 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                   <button type="submit">Submit</button>
                 </form>
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
+                {isLoading && <div className="loading-spinner"></div>}
                 {apiResult && (
                   <div className="api-result">
-                   <h4>Result:</h4>
+                   {/* <h4>Result:</h4> */}
                     <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
                       {renderObject(apiResult)}
                     </div>
@@ -422,7 +479,7 @@ function SectionB({ selectedItem, selectedSubItem, setSelectedSubItem, resetSele
                 <button onClick={() => setSelectedSubItem(previousSubItem)}>Back</button>
                 {apiResult && (
                   <div className="api-result">
-                  <h4>Result:</h4>
+                  {/* <h4>Result:</h4> */}
                    <div style={{padding: '10px', margin: '20px', borderRadius: '4px'}}>
                      {renderObject(apiResult)}
                    </div>

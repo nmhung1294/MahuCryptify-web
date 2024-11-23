@@ -12,13 +12,15 @@ class HandleSubmitCryptoSystem(APIView):
     def gen_RSA_key(request):
         try:
             data = request.data
+            if (data is None): 
+                return Response({"Error": "NULL Value - Please enter bits"})
             bits = int(data['bits'])
             if bits <= 1:
                 return Response({"Error": "Bits must be greater than 0"})
             key_RSA = create_RSA_keys(bits)
             return Response(key_RSA)
         except Exception as e:
-            return Response({"Error" : str(e)})
+            return Response({"Error" : str(request.data)}) 
     
     @api_view(['POST'])
     def encrypt_RSA(request):
@@ -30,7 +32,7 @@ class HandleSubmitCryptoSystem(APIView):
             if (n < 0 or e < 0 or n == 0 or e == 0 or message == "" or message == None or e > n): 
                 return Response({{"Error": "NULL Value"}})
             encrypted_message = EN_RSA(message, (n, e))
-            return Response({"Encrypted message": str(encrypted_message)})
+            return Response(encrypted_message)
         except Exception as e:
             return Response({"Error" : str(e)})
     
@@ -49,7 +51,7 @@ class HandleSubmitCryptoSystem(APIView):
             if (miller_rabin_test(p, 1000) == False or miller_rabin_test(q, 1000) == False):
                 return Response({{"Error": "p or q is not prime"}})
             decrypted_message = DE_RSA(encrypted_message, {"p": p, "q": q, "d": d})
-            return Response({"Decrypted message": decrypted_message})
+            return Response(decrypted_message)
         except Exception as e:
             return Response({"Error" : str(e)})
         
@@ -174,7 +176,7 @@ class HandleSubmitCryptoSystem(APIView):
             message = data['message']
             key = data['key']
             encrypted_message = En_Vigenere_Cipher(message, key)
-            return Response({"Encrypted Message" : encrypted_message})
+            return Response({"" : encrypted_message})
         except Exception as e:
             return Response({{"Error": str(e)}})
     
@@ -185,7 +187,7 @@ class HandleSubmitCryptoSystem(APIView):
             encrypted_message = data['encrypted_message']
             key = data['key']
             decrypted_message = De_Vigenere_Cipher(encrypted_message, key)
-            return Response({"Decrypted Message" : decrypted_message})
+            return Response(decrypted_message)
         except Exception as e:
             return Response({{"Error": str(e)}})
 
@@ -217,24 +219,24 @@ class HandleSubmitCryptoSystem(APIView):
         try:
             data = request.data
             message = data['message']
-            a = int(data['a'])
-            b = int(data['b'])
+            a = int(data['a-af'])
+            b = int(data['b-af'])
             if (a == 0 or b == 0 or message == "" or message == None): 
                 return Response({{"Error": "Enter Again"}})
             if (Ext_Euclide(a, 26)[0] != 1):
                 return Response({{"Error": "a must be coprime with 26"}})
             encrypted_message = En_Affine_Cipher(message, a, b)
-            return Response({"Encrypted Message" : encrypted_message})
+            return Response(encrypted_message) 
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
 
     @api_view(['POST'])
     def decrypt_affine_cipher(request):
         try:
             data = request.data
             encrypted_message = data['encrypted_message']
-            a = int(data['a'])
-            b = int(data['b'])
+            a = int(data['a-af'])
+            b = int(data['b-af'])
             if (a == 0 or b == 0 or encrypted_message == "" or encrypted_message == None): 
                 return Response({{"Error": "Enter Again"}})
             if (Ext_Euclide(a, 26)[0] != 1):
@@ -428,10 +430,10 @@ class HandleSubmitCryptoSystem(APIView):
             n = int(data['num'])
             if n < 0:
                 return Response("Enter Again")
-            result = miller_rabin_test(n, 2000)
+            result = is_prime_aks(n)
             if result == True:
-                return Response({f"{n}" : "Prime"})
-            return Response({f"{n}" : "Composite"})
+                return Response({"": f"{n} - Prime"})
+            return Response({"": f"{n} - Composite"})
         except Exception as e:
             return Response({"Error" : str(e)})
     
@@ -444,7 +446,7 @@ class HandleSubmitCryptoSystem(APIView):
             if a < 0 or b < 0:
                 return Response({"Error": "Invalid input"})
             result = Ext_Euclide(a, b)[0]
-            return Response({f"GCD({a}, {b})" : str(result)})
+            return Response({"Result" : str(result)})
         except Exception as e:
             return Response({"Error" : str(e)})
         
@@ -458,7 +460,7 @@ class HandleSubmitCryptoSystem(APIView):
             if b < 0 or n < 0 or m < 0:
                 return Response({"Error": "Invalid input"})
             result = modular_exponentiation(b, n, m)
-            return Response({f"{b}^{n} mod {m}" : str(result)})
+            return Response({"Result" : str(result)})
         except Exception as e:
             return Response({"Error" : str(e)})
     

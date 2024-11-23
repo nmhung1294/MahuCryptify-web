@@ -1,4 +1,4 @@
-import math
+from math import gcd, isqrt, log, ceil
 import random
 #Extend Ext_Euclide
 def Ext_Euclide(a, b):
@@ -176,3 +176,38 @@ def is_primitive_root(p, a):
 def is_point_on_curve(point, a, b, p):
     x, y = point
     return (y**2 - (x**3 + a*x + b)) % p == 0
+
+def is_perfect_power(n):
+    for b in range(2, int(log(n, 2)) + 1):
+        a = int(round(n ** (1 / b)))
+        if a ** b == n:
+            return True
+    return False
+
+def find_smallest_r(n):
+    max_k = ceil(log(n, 2)**2)
+    for r in range(2, n):
+        for k in range(1, max_k):
+            if pow(n, k, r) == 1 or gcd(n, r) > 1:
+                break
+        else:
+            return r
+    return n
+
+def is_prime_aks(n):
+    if is_perfect_power(n):
+        return False
+    r = find_smallest_r(n)
+    for a in range(2, r + 1):
+        if 1 < gcd(a, n) < n:
+            return False
+
+    if n <= r:
+        return True
+    max_a = int(2 * isqrt(int(r * log(n, 2))))
+
+    for a in range(1, max_a + 1):
+        if not (pow(a, n, n) == a % n):
+            return False
+
+    return True

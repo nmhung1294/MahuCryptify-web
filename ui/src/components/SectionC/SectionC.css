@@ -44,12 +44,12 @@
   color: rgb(7, 115, 129);
 }
 
-input {
-  margin: 5px 17%;
+/* input {
+  margin: 5px 8.4%;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 60%;
-}
+  width: 80%;
+} */
 #login {
   text-decoration: none;
   color: rgb(2, 29, 32);

@@ -10,13 +10,13 @@ function SectionC({ onSelectItem }) {
   return (
     <div className="section-c">
       {/* <div className="section-c1">Tìm kiếm</div> */}
-      <div className='section-c1'>
+      {/* <div className='section-c1'>
         <form className="login-form">
           <input type="text" placeholder="Username" required />
           <input type="password" placeholder="Password" required />
           <button id="login" type="submit">I have an account!</button>
         </form>
-      </div>
+      </div> */}
       <div className="section-c2">
         <h3 className='can_click' onClick={() => handleSelectItem('Algorithm')}>Algorithm</h3>
         <h3 className='can_click' onClick={() => handleSelectItem('Cryptosystem')}>Cryptosystem</h3>
