@@ -110,10 +110,10 @@ def EN_ELGAMAL(string, public_key):
     sub_str_base10 = [convert_str_to_int(sub_string) for sub_string in sub_strings]
     encrypted = []
     for sub_str in sub_str_base10:
-        y1 = modular_exponentiation(alpha, k, p)
+        y1 = modular_exponentiation(alpha, k, p) 
         y2 = (sub_str * modular_exponentiation(beta, k, p)) % p
         encrypted.append((y1, y2))
-    return {"Encrypted": encrypted}
+    return {"Encrypted": str(encrypted)}
 
 #Decrypt message using El Gamal system
 
@@ -155,7 +155,7 @@ def EN_ECC(string, public_key):
         M = double_and_add(B, k, a, p)
         C2 = add_points(point, M, a, p)
         encrypted.append((C1, C2))
-    return message_points, encrypted
+    return ({"Message points" : str(message_points), "Encrypted": str(encrypted)})
 
 #Decrypt message using Elliptic Curve system
 def DE_ECC(encrypted_message_str, public_key, private_key):

@@ -11,6 +11,35 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+/* ===========================HOME================================ */
+.home {
+  /* background-color: #fff; */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.home h1, h2, h3, h4{
+  color: #333;
+}
+
+.home h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.home p {
+  margin-bottom: 15px;
+}
+
+.home ul {
+  margin-left: 20px;
+  list-style-type: square;
+}
+
+
 
 li {
   list-style-type: none; /* Ẩn dấu chấm */
@@ -43,7 +72,7 @@ li:hover {
 }
 
 .blog-post h2, .blog-post h3 {
-  color: #007BFF;
+  color: rgb(4, 90, 68);;
 }
 
 .blog-post ul, .blog-post ol {
@@ -60,26 +89,28 @@ li:hover {
 
 input {
   padding: 10px;
-  margin: 5px 8.4%;; /* Tăng khoảng cách margin để tạo không gian thoải mái hơn */
+  margin: 5px 8.4%;
   border: 1px solid #ccc;
-  border-radius: 8px; /* Tăng bo góc cho input */
+  border-radius: 8px; 
   width: 80%;
-  outline: none; /* Loại bỏ viền mặc định */
-  transition: border-color 0.3s, box-shadow 0.3s; /* Hiệu ứng khi thay đổi */
+  outline: none; 
+  font-size: medium;
+  height: 30px;
+  transition: border-color 0.3s, box-shadow 0.3s; 
 }
 
 input:focus {
-  border-color: #007bff; /* Đổi màu viền khi input được focus */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Thêm bóng cho hiệu ứng focus */
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button {
   padding: 12px 20px; /* Tăng padding để button trông lớn hơn */
-  width: 20%; /* Tăng chiều rộng button để dễ click */
-  margin: 10px 40%; /* Giảm margin để vị trí button dễ nhìn hơn */
+  width: 30%; /* Tăng chiều rộng button để dễ click */
+  margin: 10px 35%; /* Giảm margin để vị trí button dễ nhìn hơn */
   border: none;
   border-radius: 8px; /* Tăng bo góc */
-  background-color: #007bff; /* Màu nền */
+  background-color: #024637; /* Màu nền */
   color: white;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s; /* Hiệu ứng khi hover */
@@ -90,12 +121,12 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3; /* Màu nền khi hover */
+  background-color: #05633f; /* Màu nền khi hover */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Tạo bóng mạnh hơn khi hover */
 }
 
 button:active {
-  background-color: #004085; /* Màu nền khi nhấn */
+  background-color: #0a6357; /* Màu nền khi nhấn */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Giảm bóng khi nhấn */
   transform: translateY(2px); /* Tạo hiệu ứng nhấn */
 }
@@ -109,9 +140,27 @@ input:required:valid {
   border-color: #28a745; /* Màu xanh khi input hợp lệ */
 }
 
-.inp_message {
+#mess {
   height: 70px;
+  line-height: normal;
 }
+textarea {
+  padding: 10px;
+  margin: 5px 8.4%; /* Tăng khoảng cách margin để tạo không gian thoải mái hơn */
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Tăng bo góc cho textarea */
+  width: 80%;
+  height: 100px; /* Chiều cao mặc định */
+  outline: none; /* Loại bỏ viền mặc định */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Hiệu ứng khi thay đổi */
+  resize: vertical; /* Cho phép thay đổi kích thước theo chiều dọc */
+}
+
+textarea:focus {
+  border-color: #007bff; /* Đổi màu viền khi textarea được focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Thêm bóng cho hiệu ứng focus */
+}
+
 .form-container {
   align-items: center;
 }

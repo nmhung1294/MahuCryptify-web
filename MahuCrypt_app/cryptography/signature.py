@@ -1,5 +1,6 @@
 from MahuCrypt_app.cryptography.algos import *
 from MahuCrypt_app.cryptography.pre_process import *
+import secrets
 #from numpy import *
 
 def sign_RSA(string, private_key):
@@ -26,10 +27,10 @@ def verify_RSA(hash_message, signed, public_key):
 def sign_ELGAMAL(string, public_key, private_key):
     p, alpha = public_key["p"], public_key["alpha"]
     a = private_key
+    k = secrets.randbelow(p - 1) + 1
     while True:
-        k = int(input("Enter k: "))
         if (k > p - 1 or k < 1 or Ext_Euclide(k, p - 1)[0] != 1):
-            print("Invalid k! Choose again!")
+            k = secrets.randbelow(p - 1) + 1
         else:
             break
     sub_strings = sub_string(pre_solve(string), 4)
@@ -39,7 +40,7 @@ def sign_ELGAMAL(string, public_key, private_key):
         gamma = modular_exponentiation(alpha, k, p)
         delta = (sub_str_base10[i] - a * gamma) * Ext_Euclide(k, p - 1)[1] % (p - 1)
         sign_x_Elgamal.append((gamma, delta))
-    return sign_x_Elgamal
+    return sign_x_Elgamal, sub_str_base10
 
 def verify_ELGAMAL(hash_message, sign_x_Elgamal, public_key):
     alpha, beta, p = public_key["alpha"], public_key["beta"], public_key["p"]
@@ -78,7 +79,7 @@ def sign_ECDSA(string, public_key, private_key):
             if (s != 0 and r != 0):
                 check = True
                 signed_x_ECDSA.append((r, s))
-    return signed_x_ECDSA
+    return str(signed_x_ECDSA), str(sub_str_base10)
 
 def verify_ECDSA(hash_message, signed_x, public_sign_key):
     p, q, a, b, G, Q = public_sign_key["p"], public_sign_key["q"], public_sign_key["a"], public_sign_key["b"], public_sign_key["G"], public_sign_key["Q"]

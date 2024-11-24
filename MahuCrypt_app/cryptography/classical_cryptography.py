@@ -41,7 +41,8 @@ def En_Affine_Cipher(string, a, b):
     Encrypts the string using the affine cipher
     """
     encrypted_string = ""
-    # a, b = Create_Affine_Cipher_Key()
+    if (Ext_Euclide(a, 26)[0] != 1):
+        return {"Error": f"{a} và 26 không nguyên tố cùng nhau"}
     for char in string:
         if char.isalpha():
             encrypted_string += chr((a * (ord(char) - 65) + b) % 26 + 65)
@@ -54,6 +55,8 @@ def De_Affine_Cipher(string, a, b):
     Decrypts the string using the affine cipher
     """
     decrypted_string = ""
+    if (Ext_Euclide(a, 26)[0] != 1):
+        return {"Error": f"{a} và 26 không nguyên tố cùng nhau"}
     for char in string:
         if char.isalpha():
             decrypted_string += chr(((ord(char) - 65 - b) * Ext_Euclide(a, 26)[1]) % 26 + 65)

@@ -35,12 +35,12 @@ urlpatterns = [
 
     path('digitalsignature/digital_signature_using_rsa/create_key/', HandleSubmitCryptoSystem.create_key_sign_RSA, name='create_key_sign_RSA'),
     path('digitalsignature/digital_signature_using_rsa/sign/', HandleSubmitCryptoSystem.sign_RSA, name='sign_RSA'),
-    path('digitalsignature/digital_signature_using_rsa/verify_signature/', HandleSubmitCryptoSystem.verify_RSA, name='verify_RSA'),
+    path('digitalsignature/digital_signature_using_rsa/verify/', HandleSubmitCryptoSystem.verify_RSA, name='verify_RSA'),
     path('digitalsignature/elgamal_digital_signature/create_key/', HandleSubmitCryptoSystem.create_key_sign_ElGamal, name='create_key_sign_ElGamal'),
     path('digitalsignature/elgamal_digital_signature/sign/', HandleSubmitCryptoSystem.sign_ElGamal, name='sign_ElGamal'),
-    path('digitalsignature/elgamal_digital_signature/verify_signature/', HandleSubmitCryptoSystem.verify_ElGamal, name='verify_ElGamal'),
+    path('digitalsignature/elgamal_digital_signature/verify/', HandleSubmitCryptoSystem.verify_ElGamal, name='verify_ElGamal'),
     path('digitalsignature/ecdsa/create_key/', HandleSubmitCryptoSystem.create_key_sign_ECDSA, name='create_key_sign_ECDSA'),
     path('digitalsignature/ecdsa/sign/', HandleSubmitCryptoSystem.sign_ECDSA, name='sign_ECDSA'),
-    path('digitalsignature/ecdsa/verify_signature/', HandleSubmitCryptoSystem.verify_ECDSA, name='verify_ECDSA'),
+    path('digitalsignature/ecdsa/verify/', HandleSubmitCryptoSystem.verify_ECDSA, name='verify_ECDSA'),
 ]
 

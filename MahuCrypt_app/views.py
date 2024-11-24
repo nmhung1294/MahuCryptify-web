@@ -30,7 +30,7 @@ class HandleSubmitCryptoSystem(APIView):
             n = int(data['n'])
             e = int(data['e'])
             if (n < 0 or e < 0 or n == 0 or e == 0 or message == "" or message == None or e > n): 
-                return Response({{"Error": "NULL Value"}})
+                return Response({"Error": "NULL Value"})
             encrypted_message = EN_RSA(message, (n, e))
             return Response(encrypted_message)
         except Exception as e:
@@ -45,11 +45,11 @@ class HandleSubmitCryptoSystem(APIView):
             p = int(data['p'])
             q = int(data['q'])
             if (encrypted_message == "" or encrypted_message == None or d == 0 or p == 0 or q == 0): 
-                return Response({{"Error": "NULL Value"}})
+                return Response({"Error": "NULL Value"})
             if d > p*q:
-                return Response({{"Error": "Invalid d"}})
+                return Response({"Error": "Invalid d"})
             if (miller_rabin_test(p, 1000) == False or miller_rabin_test(q, 1000) == False):
-                return Response({{"Error": "p or q is not prime"}})
+                return Response({"Error": "p or q is not prime"})
             decrypted_message = DE_RSA(encrypted_message, {"p": p, "q": q, "d": d})
             return Response(decrypted_message)
         except Exception as e:
@@ -75,13 +75,13 @@ class HandleSubmitCryptoSystem(APIView):
         alpha = int(data['alpha'])
         beta = int(data['beta'])
         if (p < 0 or alpha < 0 or beta < 0 or p == 0 or alpha == 0 or beta == 0 or message == "" or message == None): 
-            return Response({{"Error": "NULL Value"}})
+            return Response({"Error": "NULL Value"})
         if (miller_rabin_test(p, 1000) == False):
-            return Response({{"Error": "p is not prime"}})
+            return Response({"Error": "p is not prime"})
         if (is_primitive_root(alpha, p) == False):
-            return Response({{"Error": "alpha is not primitive root"}})
+            return Response({"Error": "alpha is not primitive root"})
         encrypted_message = EN_ELGAMAL(message, {"p": p, "alpha": alpha, "beta": beta})
-        return Response({"Encrypted Message": encrypted_message})
+        return Response(encrypted_message)
     
     @api_view(['POST'])
     def decrypt_ElGamal(request):
@@ -92,9 +92,9 @@ class HandleSubmitCryptoSystem(APIView):
         if (encrypted_message == "" or encrypted_message == None or p == 0 or a == 0): 
             return Response("Enter Again")
         if (miller_rabin_test(p, 1000) == False):
-            return Response({{"Error": "p is not prime"}})
+            return Response({"Error": "p is not prime"})
         decrypted_message = DE_ELGAMAL(encrypted_message, p, a)
-        return Response({"Decrypted Message": decrypted_message})
+        return Response(decrypted_message)
     
     @api_view(['POST'])
     def gen_ECC_key(request):
@@ -118,15 +118,15 @@ class HandleSubmitCryptoSystem(APIView):
             P = (int(data['Px']), int(data['Py']))
             B = (int(data['Bx']), int(data['By']))
             if (a == 0 or p == 0 or P == (0, 0) or B == (0, 0) or message == "" or message == None): 
-                return Response({{"Error": "NULL Value"}})
+                return Response({"Error": "NULL Value"})
             if (miller_rabin_test(p, 1000) == False):
-                return Response({{"Error": "p is not prime"}})
+                return Response({"Error": "p is not prime"})
             # if (is_point_on_curve(P, a, b, p) == False):
-            #     return Response({{"Error": "P is not on the curve"}})
+            #     return Response({"Error": "P is not on the curve"})
             # if (is_point_on_curve(B, a, b, p) == False):
-            #     return Response({{"Error": "B is not on the curve"}})
+            #     return Response({"Error": "B is not on the curve"})
             result = EN_ECC(message, {"a": a, "p" : p, "P" : P, "B": B})
-            return Response({"Message points: ": str(result[0]), "Encrypted message: ": str(result[1])})
+            return Response(result)
         except Exception as e:
             return Response({"Error" : str(e)})
         
@@ -139,11 +139,11 @@ class HandleSubmitCryptoSystem(APIView):
             a = int(data['a'])
             p = int(data['p'])
             if (encrypted_message == "" or encrypted_message == None or a == 0 or p == 0 or s == 0): 
-                return Response({{"Error": "NULL Value"}})
+                return Response({"Error": "NULL Value"})
             if (miller_rabin_test(p, 1000) == False):
-                return Response({{"Error": "p is not prime"}})
+                return Response({"Error": "p is not prime"})
             result = DE_ECC(encrypted_message, {"a": a, "p" : p}, s)
-            return Response({"Decrypted message": str(result)})
+            return Response(result)
         except Exception as e:
             return Response({"Error" : str(e)})
     
@@ -156,7 +156,7 @@ class HandleSubmitCryptoSystem(APIView):
             encrypted_message = En_Shift_Cipher(message, key)
             return Response({"Encrypted Message" : encrypted_message})
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
 
     @api_view(['POST'])
     def decrypt_shift_cipher(request):
@@ -167,7 +167,7 @@ class HandleSubmitCryptoSystem(APIView):
             decrypted_message = De_Shift_Cipher(encrypted_message, key)
             return Response({"Decrypted Message" : decrypted_message})
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
     
     @api_view(['POST'])
     def encrypt_vigenere_cipher(request):
@@ -178,18 +178,18 @@ class HandleSubmitCryptoSystem(APIView):
             encrypted_message = En_Vigenere_Cipher(message, key)
             return Response({"" : encrypted_message})
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
     
     @api_view(['POST'])
     def decrypt_vigenere_cipher(request):
         try:
             data = request.data
             encrypted_message = data['encrypted_message']
-            key = data['key']
+            key = data['key_decrypt']
             decrypted_message = De_Vigenere_Cipher(encrypted_message, key)
             return Response(decrypted_message)
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
 
     @api_view(['POST'])
     def encrypt_hill_cipher(request):
@@ -200,7 +200,7 @@ class HandleSubmitCryptoSystem(APIView):
             encrypted_message = En_Hill_Cipher(message, key)
             return Response({"Encrypted Message" : encrypted_message})
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
 
 
     @api_view(['POST'])
@@ -212,7 +212,7 @@ class HandleSubmitCryptoSystem(APIView):
             decrypted_message = De_Hill_Cipher(encrypted_message, key)
             return Response({"Decrypted Message" : decrypted_message})
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
 
     @api_view(['POST'])
     def encrypt_affine_cipher(request):
@@ -222,9 +222,7 @@ class HandleSubmitCryptoSystem(APIView):
             a = int(data['a-af'])
             b = int(data['b-af'])
             if (a == 0 or b == 0 or message == "" or message == None): 
-                return Response({{"Error": "Enter Again"}})
-            if (Ext_Euclide(a, 26)[0] != 1):
-                return Response({{"Error": "a must be coprime with 26"}})
+                return Response({"Error": "Enter Again"})
             encrypted_message = En_Affine_Cipher(message, a, b)
             return Response(encrypted_message) 
         except Exception as e:
@@ -238,13 +236,11 @@ class HandleSubmitCryptoSystem(APIView):
             a = int(data['a-af'])
             b = int(data['b-af'])
             if (a == 0 or b == 0 or encrypted_message == "" or encrypted_message == None): 
-                return Response({{"Error": "Enter Again"}})
-            if (Ext_Euclide(a, 26)[0] != 1):
-                return Response({{"Error": "a must be coprime with 26"}})
+                return Response({"Error": "Enter Again"})
             decrypted_message = De_Affine_Cipher(encrypted_message, a, b)
             return Response({"Decrypted Message" : decrypted_message})
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
 
     @api_view(['POST'])
     def create_key_sign_RSA(request):
@@ -252,11 +248,11 @@ class HandleSubmitCryptoSystem(APIView):
             data = request.data
             bits = int(data['bits'])
             if bits <= 1:
-                return Response({{"Error": "Bits must be greater than 0"}})
+                return Response({"Error": "Bits must be greater than 0"})
             key_RSA = create_RSA_keys(bits)
             return Response(key_RSA)
         except Exception as e:
-            return Response({{"Error": str(e)}})
+            return Response({"Error": str(e)})
     
     @api_view(['POST'])
     def sign_RSA(request):
@@ -290,7 +286,7 @@ class HandleSubmitCryptoSystem(APIView):
             if (n == 0 or e == 0 or hash_message_str == "" or hash_message_str == None or e > n): 
                 return Response("Enter Again")
             result = verify_RSA(hash_message, signed_message, (n, e))
-            return Response("Verification:" + str(result))
+            return Response({"Verification: ": str(result)})
         except Exception as e:
             return Response(str(e))
     
@@ -300,7 +296,7 @@ class HandleSubmitCryptoSystem(APIView):
             data = request.data
             bits = int(data['bits'])
             if bits <= 1:
-                return Response({{"Error": "Bits must be greater than 0"}})
+                return Response({"Error": "Bits must be greater than 0"})
             key_ElGamal = create_ELGAMAL_keys(bits)
             return Response(key_ElGamal)
         except Exception as e:
@@ -317,11 +313,11 @@ class HandleSubmitCryptoSystem(APIView):
             if (p == 0 or alpha == 0 or a == 0 or message == "" or message == None): 
                 return Response({"Error": "NULL Value"})
             if (miller_rabin_test(p, 1000) == False):
-                return Response({{"Error": "p is not prime"}})
+                return Response({"Error": "p is not prime"})
             if (is_primitive_root(alpha, p) == False):
-                return Response({{"Error": "alpha is not primitive root"}})
-            signed_message = sign_ELGAMAL(message, {"p": p, "alpha": alpha}, a)
-            return Response({"Signed Message" : str(signed_message)})
+                return Response({"Error": "alpha is not primitive root"})
+            signed_message, hash_message = sign_ELGAMAL(message, {"p": p, "alpha": alpha}, a)
+            return Response({"Signed Message" : str(signed_message), "Hashed Message": str(hash_message)})
         except Exception as e:
             return Response({"Error" : str(e)})
     
@@ -345,11 +341,11 @@ class HandleSubmitCryptoSystem(APIView):
             if (p == 0 or alpha == 0 or beta == 0 or hash_message_str == "" or hash_message_str == None): 
                 return Response({"Error": "NULL Value"})
             if (miller_rabin_test(p, 1000) == False):
-                return Response({{"Error": "p is not prime"}})
+                return Response({"Error": "p is not prime"})
             if (is_primitive_root(alpha, p) == False):
-                return Response({{"Error": "alpha is not primitive root"}})
+                return Response({"Error": "alpha is not primitive root"})
             result = verify_ELGAMAL(hash_message, signed_message, {"p": p, "alpha": alpha, "beta": beta})
-            return Response("Verification:" + str(result))
+            return Response({"Verification: ": str(result)})
         except Exception as e:
             return Response({"Error" : str(e)})
     
@@ -377,6 +373,7 @@ class HandleSubmitCryptoSystem(APIView):
             p = int(data['p'])
             q = int(data['q'])
             a = int(data['a'])
+            b = int(data['b'])
             G = (int(data['Gx']), int(data['Gy']))
             d = int(data['d'])
             if (p == 0 or q == 0 or a == 0 or G == (0, 0) or d == 0 or message == "" or message == None): 
@@ -385,8 +382,8 @@ class HandleSubmitCryptoSystem(APIView):
                 return Response({"Error": "p or q is not prime"})
             if (is_point_on_curve(G, a, p) == False):
                 return Response({"Error": "G is not on the curve"})
-            signed_message = sign_ECDSA(message, {"p": p, "q": q, "a": a, "G": G}, d)
-            return Response({"Signed Message" : str(signed_message)})
+            signed_message, hash_message = sign_ECDSA(message, {"p": p, "q": q, "a": a, "G": G}, d)
+            return Response({"Signed Message" : str(signed_message), "Hashed Message": str(hash_message)})
         except Exception as e:
             return Response(str(e))
 
@@ -419,7 +416,7 @@ class HandleSubmitCryptoSystem(APIView):
             if (is_point_on_curve(Q, a, p) == False):
                 return Response({"Error": "Q is not on the curve"})
             result = verify_ECDSA(hash_message, signed_message, {"p": p, "q": q, "a": a, "b": b, "G": G, "Q": Q})
-            return Response("Verification:" + str(result))
+            return Response({"Verification: ": str(result)})
         except Exception as e:
             return Response({"Error" : str(e)})
 
@@ -475,6 +472,7 @@ class HandleSubmitCryptoSystem(APIView):
             result = Ext_Euclide(a, m)
             if result[0] != 1:
                 return Response({"Result": "No modular multiplicative inverse"})
+            invmod = result[1]
             if result[1] < 0: 
                 invmod = m + result[1]
             return Response({"Result": invmod})
