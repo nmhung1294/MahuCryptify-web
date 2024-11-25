@@ -25,15 +25,6 @@ Mahucrypt App là một dự án kết hợp Django và React, sử dụng Mongo
     npm install react
     npm install axios
     ```
-
-## Cấu hình MongoDB
-1. Trong thư mục `config`, tạo file `db_conf.py`.
-2. Trong `db_conf.py`, khai báo các thông tin sau:
-    ```python
-    USER_NAME = 'nmhung'
-    PASSWORD = '5AZlGTqHCy1hVUQs'
-    ```
-
 ## Chạy chương trình
 
 ### 1. Chạy Django Backend
