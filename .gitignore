@@ -1,1 +1,4 @@
 /MahuCrypt_app/config
+
+__pycache__/
+*.pyc
