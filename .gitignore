@@ -2,3 +2,7 @@
 
 __pycache__/
 *.pyc
+
+tests/**/*.txt
+tests/**/QUICK_SUMMARY.md
+*.txt

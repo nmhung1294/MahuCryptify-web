@@ -17,8 +17,8 @@ Mahucrypt App là một dự án kết hợp Django và React, sử dụng Mongo
 ### Cấu hình MongoDB
 Chuyển đến thư mục MahuCrypt_app, tạo folder config. Trong folder config, tạo file db_conf.py, trong file này:
 ```bash
-USER_NAME = 'nmhung'
-PASSWORD = 'nmhung1.2.9.4'
+USER_NAME = 'xx'
+PASSWORD = 'xx'
 ```
 
 ### Cài đặt các gói JavaScript
