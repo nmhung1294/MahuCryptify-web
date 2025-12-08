@@ -6,3 +6,4 @@ __pycache__/
 tests/**/*.txt
 tests/**/QUICK_SUMMARY.md
 *.txt
+*.md
